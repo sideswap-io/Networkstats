@@ -58,15 +58,24 @@ class LbtcIssuance extends EsploraApiInterface
         networkStats.lbtcIssuance = NSLBTCIssuance();
       }
 
-      final issuedAmount = asset.chainStats?.pegInAmount ??
-          networkStats.lbtcIssuance?.issuedAmount ??
-          0;
-      final burnedAmount = asset.chainStats?.burnedAmount ??
-          networkStats.lbtcIssuance?.burnedAmount ??
-          0;
+      final pegInAmount = asset.chainStats?.pegInAmount ?? 0;
+      final pegInCount = asset.chainStats?.pegInCount ?? 0;
+      final pegOutAmount = asset.chainStats?.pegOutAmount ?? 0;
+      final burnAmount = asset.chainStats?.burnedAmount ?? 0;
+      final burnCount = asset.chainStats?.burnCount ?? 0;
+
+      // Peg-out/Burned = peg_out_amount +  burned_amount (peg_in_count + burned_count)
+      final burnedAmount = pegOutAmount + burnAmount * (pegInCount + burnCount);
+
+      // Circulating amount = peg_in_amount - peg_out_amount - burned_amount
+      final circulatingAmount = pegInAmount - pegOutAmount - burnAmount;
+
+      // Issued amount = peg_in_amount (peg_in_count)
+      final issuedAmount = pegInAmount * pegInCount;
 
       networkStats.lbtcIssuance?.issuedAmount = issuedAmount;
       networkStats.lbtcIssuance?.burnedAmount = burnedAmount;
+      networkStats.lbtcIssuance?.circulatingAmount = circulatingAmount;
       networkStats.id = 0;
 
       logger.i(networkStats.toJson());
