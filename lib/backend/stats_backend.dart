@@ -24,7 +24,10 @@ class StatsBackend extends Backend {
     await Isar.initializeIsarCore(download: true);
 
     isar = await Isar.open(
-      [NetworkStatsSchema],
+      [
+        NetworkStatsSchema,
+        NSBlockSchema,
+      ],
       directory: "data/",
       inspector: false,
     );
@@ -35,18 +38,19 @@ class StatsBackend extends Backend {
   Future<void> _run(Isar isar) async {
     logger.i('Running backend service');
 
-    final lbtcIssuance = LbtcIssuance(isar);
-
+    final blockApi = BlockApi(isar);
     final blockScheduler = NeatPeriodicTaskScheduler(
-      interval: Duration(seconds: 10),
+      interval: Duration(seconds: 3),
       name: 'block-api',
-      timeout: Duration(seconds: 5),
+      timeout: Duration(seconds: 10),
       task: () async {
-        logger.i('Executing block');
+        await blockApi.scrape();
       },
       minCycle: Duration(milliseconds: 150),
     );
+    blockScheduler.start();
 
+    final lbtcIssuance = LbtcIssuance(isar);
     final lbtcIssuanceScheduler = NeatPeriodicTaskScheduler(
       interval: Duration(seconds: 60),
       name: 'lbtc-issuance-api',
@@ -56,44 +60,14 @@ class StatsBackend extends Backend {
       },
       minCycle: Duration(milliseconds: 150),
     );
-
-    blockScheduler.start();
     lbtcIssuanceScheduler.start();
 
     ProcessSignal.sigint.watch().listen((event) async {
       logger.i("Exiting backend service.");
       await blockScheduler.stop();
-      await lbtcIssuanceScheduler.stop();
+      // await lbtcIssuanceScheduler.stop();
       await isar.close();
       logger.i("Backend service done.");
     });
-
-    // var now = DateTime.now();
-    // while (true) {
-    //   while (true) {
-    //     var currentTime = DateTime.now();
-    //     final diffTime = currentTime.difference(now);
-    //     if (diffTime.inSeconds >= 10) {
-    //       break;
-    //     }
-
-    //     logger.i('Executing block: ${diffTime.inMilliseconds}');
-
-    //     // final blockApi = BlockApi(isar);
-    //     // await blockApi.scrape();
-
-    //     await Future.delayed(Duration(milliseconds: 300));
-    //   }
-
-    //   logger.i('Executing lbtc issuance');
-    //   // final lbtcIssuance = LbtcIssuance(isar);
-    //   // await lbtcIssuance.scrape();
-
-    //   now = DateTime.now();
-    //   await Future.delayed(Duration(seconds: 1));
-    // }
-
-    // // final assetRegistry = AssetRegistry();
-    // // await assetRegistry.scrape();
   }
 }

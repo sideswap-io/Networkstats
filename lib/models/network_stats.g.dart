@@ -635,6 +635,1716 @@ extension NetworkStatsQueryProperty
   }
 }
 
+// coverage:ignore-file
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
+
+extension GetNSBlockCollection on Isar {
+  IsarCollection<NSBlock> get nSBlocks => this.collection();
+}
+
+const NSBlockSchema = CollectionSchema(
+  name: r'NSBlock',
+  id: -2248564792922144220,
+  properties: {
+    r'blockHash': PropertySchema(
+      id: 0,
+      name: r'blockHash',
+      type: IsarType.string,
+    ),
+    r'blockHeight': PropertySchema(
+      id: 1,
+      name: r'blockHeight',
+      type: IsarType.long,
+    ),
+    r'burnCount': PropertySchema(
+      id: 2,
+      name: r'burnCount',
+      type: IsarType.long,
+    ),
+    r'burnVolume': PropertySchema(
+      id: 3,
+      name: r'burnVolume',
+      type: IsarType.long,
+    ),
+    r'isEmpty': PropertySchema(
+      id: 4,
+      name: r'isEmpty',
+      type: IsarType.bool,
+    ),
+    r'pegInCount': PropertySchema(
+      id: 5,
+      name: r'pegInCount',
+      type: IsarType.long,
+    ),
+    r'pegInVolume': PropertySchema(
+      id: 6,
+      name: r'pegInVolume',
+      type: IsarType.long,
+    ),
+    r'pegOutCount': PropertySchema(
+      id: 7,
+      name: r'pegOutCount',
+      type: IsarType.long,
+    ),
+    r'pegOutVolume': PropertySchema(
+      id: 8,
+      name: r'pegOutVolume',
+      type: IsarType.long,
+    ),
+    r'swapCount': PropertySchema(
+      id: 9,
+      name: r'swapCount',
+      type: IsarType.long,
+    ),
+    r'txCount': PropertySchema(
+      id: 10,
+      name: r'txCount',
+      type: IsarType.long,
+    )
+  },
+  estimateSize: _nSBlockEstimateSize,
+  serialize: _nSBlockSerialize,
+  deserialize: _nSBlockDeserialize,
+  deserializeProp: _nSBlockDeserializeProp,
+  idName: r'id',
+  indexes: {
+    r'blockHeight': IndexSchema(
+      id: -7712182092526905689,
+      name: r'blockHeight',
+      unique: true,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'blockHeight',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
+    )
+  },
+  links: {},
+  embeddedSchemas: {},
+  getId: _nSBlockGetId,
+  getLinks: _nSBlockGetLinks,
+  attach: _nSBlockAttach,
+  version: '3.1.0+1',
+);
+
+int _nSBlockEstimateSize(
+  NSBlock object,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  var bytesCount = offsets.last;
+  {
+    final value = object.blockHash;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  return bytesCount;
+}
+
+void _nSBlockSerialize(
+  NSBlock object,
+  IsarWriter writer,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  writer.writeString(offsets[0], object.blockHash);
+  writer.writeLong(offsets[1], object.blockHeight);
+  writer.writeLong(offsets[2], object.burnCount);
+  writer.writeLong(offsets[3], object.burnVolume);
+  writer.writeBool(offsets[4], object.isEmpty);
+  writer.writeLong(offsets[5], object.pegInCount);
+  writer.writeLong(offsets[6], object.pegInVolume);
+  writer.writeLong(offsets[7], object.pegOutCount);
+  writer.writeLong(offsets[8], object.pegOutVolume);
+  writer.writeLong(offsets[9], object.swapCount);
+  writer.writeLong(offsets[10], object.txCount);
+}
+
+NSBlock _nSBlockDeserialize(
+  Id id,
+  IsarReader reader,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  final object = NSBlock(
+    blockHash: reader.readStringOrNull(offsets[0]),
+    blockHeight: reader.readLongOrNull(offsets[1]),
+    burnCount: reader.readLongOrNull(offsets[2]),
+    burnVolume: reader.readLongOrNull(offsets[3]),
+    id: id,
+    pegInCount: reader.readLongOrNull(offsets[5]),
+    pegInVolume: reader.readLongOrNull(offsets[6]),
+    pegOutCount: reader.readLongOrNull(offsets[7]),
+    pegOutVolume: reader.readLongOrNull(offsets[8]),
+    swapCount: reader.readLongOrNull(offsets[9]),
+    txCount: reader.readLongOrNull(offsets[10]),
+  );
+  return object;
+}
+
+P _nSBlockDeserializeProp<P>(
+  IsarReader reader,
+  int propertyId,
+  int offset,
+  Map<Type, List<int>> allOffsets,
+) {
+  switch (propertyId) {
+    case 0:
+      return (reader.readStringOrNull(offset)) as P;
+    case 1:
+      return (reader.readLongOrNull(offset)) as P;
+    case 2:
+      return (reader.readLongOrNull(offset)) as P;
+    case 3:
+      return (reader.readLongOrNull(offset)) as P;
+    case 4:
+      return (reader.readBool(offset)) as P;
+    case 5:
+      return (reader.readLongOrNull(offset)) as P;
+    case 6:
+      return (reader.readLongOrNull(offset)) as P;
+    case 7:
+      return (reader.readLongOrNull(offset)) as P;
+    case 8:
+      return (reader.readLongOrNull(offset)) as P;
+    case 9:
+      return (reader.readLongOrNull(offset)) as P;
+    case 10:
+      return (reader.readLongOrNull(offset)) as P;
+    default:
+      throw IsarError('Unknown property with id $propertyId');
+  }
+}
+
+Id _nSBlockGetId(NSBlock object) {
+  return object.id;
+}
+
+List<IsarLinkBase<dynamic>> _nSBlockGetLinks(NSBlock object) {
+  return [];
+}
+
+void _nSBlockAttach(IsarCollection<dynamic> col, Id id, NSBlock object) {
+  object.id = id;
+}
+
+extension NSBlockByIndex on IsarCollection<NSBlock> {
+  Future<NSBlock?> getByBlockHeight(int? blockHeight) {
+    return getByIndex(r'blockHeight', [blockHeight]);
+  }
+
+  NSBlock? getByBlockHeightSync(int? blockHeight) {
+    return getByIndexSync(r'blockHeight', [blockHeight]);
+  }
+
+  Future<bool> deleteByBlockHeight(int? blockHeight) {
+    return deleteByIndex(r'blockHeight', [blockHeight]);
+  }
+
+  bool deleteByBlockHeightSync(int? blockHeight) {
+    return deleteByIndexSync(r'blockHeight', [blockHeight]);
+  }
+
+  Future<List<NSBlock?>> getAllByBlockHeight(List<int?> blockHeightValues) {
+    final values = blockHeightValues.map((e) => [e]).toList();
+    return getAllByIndex(r'blockHeight', values);
+  }
+
+  List<NSBlock?> getAllByBlockHeightSync(List<int?> blockHeightValues) {
+    final values = blockHeightValues.map((e) => [e]).toList();
+    return getAllByIndexSync(r'blockHeight', values);
+  }
+
+  Future<int> deleteAllByBlockHeight(List<int?> blockHeightValues) {
+    final values = blockHeightValues.map((e) => [e]).toList();
+    return deleteAllByIndex(r'blockHeight', values);
+  }
+
+  int deleteAllByBlockHeightSync(List<int?> blockHeightValues) {
+    final values = blockHeightValues.map((e) => [e]).toList();
+    return deleteAllByIndexSync(r'blockHeight', values);
+  }
+
+  Future<Id> putByBlockHeight(NSBlock object) {
+    return putByIndex(r'blockHeight', object);
+  }
+
+  Id putByBlockHeightSync(NSBlock object, {bool saveLinks = true}) {
+    return putByIndexSync(r'blockHeight', object, saveLinks: saveLinks);
+  }
+
+  Future<List<Id>> putAllByBlockHeight(List<NSBlock> objects) {
+    return putAllByIndex(r'blockHeight', objects);
+  }
+
+  List<Id> putAllByBlockHeightSync(List<NSBlock> objects,
+      {bool saveLinks = true}) {
+    return putAllByIndexSync(r'blockHeight', objects, saveLinks: saveLinks);
+  }
+}
+
+extension NSBlockQueryWhereSort on QueryBuilder<NSBlock, NSBlock, QWhere> {
+  QueryBuilder<NSBlock, NSBlock, QAfterWhere> anyId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(const IdWhereClause.any());
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterWhere> anyBlockHeight() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'blockHeight'),
+      );
+    });
+  }
+}
+
+extension NSBlockQueryWhere on QueryBuilder<NSBlock, NSBlock, QWhereClause> {
+  QueryBuilder<NSBlock, NSBlock, QAfterWhereClause> idEqualTo(Id id) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IdWhereClause.between(
+        lower: id,
+        upper: id,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterWhereClause> idNotEqualTo(Id id) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
+            )
+            .addWhereClause(
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
+            )
+            .addWhereClause(
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
+            );
+      }
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterWhereClause> idGreaterThan(Id id,
+      {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IdWhereClause.greaterThan(lower: id, includeLower: include),
+      );
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterWhereClause> idLessThan(Id id,
+      {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IdWhereClause.lessThan(upper: id, includeUpper: include),
+      );
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterWhereClause> idBetween(
+    Id lowerId,
+    Id upperId, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IdWhereClause.between(
+        lower: lowerId,
+        includeLower: includeLower,
+        upper: upperId,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterWhereClause> blockHeightIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'blockHeight',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterWhereClause> blockHeightIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'blockHeight',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterWhereClause> blockHeightEqualTo(
+      int? blockHeight) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'blockHeight',
+        value: [blockHeight],
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterWhereClause> blockHeightNotEqualTo(
+      int? blockHeight) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'blockHeight',
+              lower: [],
+              upper: [blockHeight],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'blockHeight',
+              lower: [blockHeight],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'blockHeight',
+              lower: [blockHeight],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'blockHeight',
+              lower: [],
+              upper: [blockHeight],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterWhereClause> blockHeightGreaterThan(
+    int? blockHeight, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'blockHeight',
+        lower: [blockHeight],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterWhereClause> blockHeightLessThan(
+    int? blockHeight, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'blockHeight',
+        lower: [],
+        upper: [blockHeight],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterWhereClause> blockHeightBetween(
+    int? lowerBlockHeight,
+    int? upperBlockHeight, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'blockHeight',
+        lower: [lowerBlockHeight],
+        includeLower: includeLower,
+        upper: [upperBlockHeight],
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+}
+
+extension NSBlockQueryFilter
+    on QueryBuilder<NSBlock, NSBlock, QFilterCondition> {
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> blockHashIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'blockHash',
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> blockHashIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'blockHash',
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> blockHashEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'blockHash',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> blockHashGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'blockHash',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> blockHashLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'blockHash',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> blockHashBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'blockHash',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> blockHashStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'blockHash',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> blockHashEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'blockHash',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> blockHashContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'blockHash',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> blockHashMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'blockHash',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> blockHashIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'blockHash',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> blockHashIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'blockHash',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> blockHeightIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'blockHeight',
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> blockHeightIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'blockHeight',
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> blockHeightEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'blockHeight',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> blockHeightGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'blockHeight',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> blockHeightLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'blockHeight',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> blockHeightBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'blockHeight',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> burnCountIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'burnCount',
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> burnCountIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'burnCount',
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> burnCountEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'burnCount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> burnCountGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'burnCount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> burnCountLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'burnCount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> burnCountBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'burnCount',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> burnVolumeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'burnVolume',
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> burnVolumeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'burnVolume',
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> burnVolumeEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'burnVolume',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> burnVolumeGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'burnVolume',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> burnVolumeLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'burnVolume',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> burnVolumeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'burnVolume',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> idEqualTo(Id value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'id',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> idGreaterThan(
+    Id value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'id',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> idLessThan(
+    Id value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'id',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> idBetween(
+    Id lower,
+    Id upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'id',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> isEmptyEqualTo(
+      bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isEmpty',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> pegInCountIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'pegInCount',
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> pegInCountIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'pegInCount',
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> pegInCountEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'pegInCount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> pegInCountGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'pegInCount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> pegInCountLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'pegInCount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> pegInCountBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'pegInCount',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> pegInVolumeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'pegInVolume',
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> pegInVolumeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'pegInVolume',
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> pegInVolumeEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'pegInVolume',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> pegInVolumeGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'pegInVolume',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> pegInVolumeLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'pegInVolume',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> pegInVolumeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'pegInVolume',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> pegOutCountIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'pegOutCount',
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> pegOutCountIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'pegOutCount',
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> pegOutCountEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'pegOutCount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> pegOutCountGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'pegOutCount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> pegOutCountLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'pegOutCount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> pegOutCountBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'pegOutCount',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> pegOutVolumeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'pegOutVolume',
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition>
+      pegOutVolumeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'pegOutVolume',
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> pegOutVolumeEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'pegOutVolume',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> pegOutVolumeGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'pegOutVolume',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> pegOutVolumeLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'pegOutVolume',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> pegOutVolumeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'pegOutVolume',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> swapCountIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'swapCount',
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> swapCountIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'swapCount',
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> swapCountEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'swapCount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> swapCountGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'swapCount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> swapCountLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'swapCount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> swapCountBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'swapCount',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> txCountIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'txCount',
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> txCountIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'txCount',
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> txCountEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'txCount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> txCountGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'txCount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> txCountLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'txCount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterFilterCondition> txCountBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'txCount',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+}
+
+extension NSBlockQueryObject
+    on QueryBuilder<NSBlock, NSBlock, QFilterCondition> {}
+
+extension NSBlockQueryLinks
+    on QueryBuilder<NSBlock, NSBlock, QFilterCondition> {}
+
+extension NSBlockQuerySortBy on QueryBuilder<NSBlock, NSBlock, QSortBy> {
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> sortByBlockHash() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'blockHash', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> sortByBlockHashDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'blockHash', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> sortByBlockHeight() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'blockHeight', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> sortByBlockHeightDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'blockHeight', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> sortByBurnCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'burnCount', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> sortByBurnCountDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'burnCount', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> sortByBurnVolume() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'burnVolume', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> sortByBurnVolumeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'burnVolume', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> sortByIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isEmpty', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> sortByIsEmptyDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isEmpty', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> sortByPegInCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pegInCount', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> sortByPegInCountDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pegInCount', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> sortByPegInVolume() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pegInVolume', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> sortByPegInVolumeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pegInVolume', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> sortByPegOutCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pegOutCount', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> sortByPegOutCountDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pegOutCount', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> sortByPegOutVolume() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pegOutVolume', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> sortByPegOutVolumeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pegOutVolume', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> sortBySwapCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'swapCount', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> sortBySwapCountDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'swapCount', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> sortByTxCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'txCount', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> sortByTxCountDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'txCount', Sort.desc);
+    });
+  }
+}
+
+extension NSBlockQuerySortThenBy
+    on QueryBuilder<NSBlock, NSBlock, QSortThenBy> {
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> thenByBlockHash() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'blockHash', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> thenByBlockHashDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'blockHash', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> thenByBlockHeight() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'blockHeight', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> thenByBlockHeightDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'blockHeight', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> thenByBurnCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'burnCount', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> thenByBurnCountDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'burnCount', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> thenByBurnVolume() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'burnVolume', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> thenByBurnVolumeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'burnVolume', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> thenById() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> thenByIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> thenByIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isEmpty', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> thenByIsEmptyDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isEmpty', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> thenByPegInCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pegInCount', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> thenByPegInCountDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pegInCount', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> thenByPegInVolume() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pegInVolume', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> thenByPegInVolumeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pegInVolume', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> thenByPegOutCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pegOutCount', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> thenByPegOutCountDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pegOutCount', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> thenByPegOutVolume() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pegOutVolume', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> thenByPegOutVolumeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pegOutVolume', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> thenBySwapCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'swapCount', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> thenBySwapCountDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'swapCount', Sort.desc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> thenByTxCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'txCount', Sort.asc);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QAfterSortBy> thenByTxCountDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'txCount', Sort.desc);
+    });
+  }
+}
+
+extension NSBlockQueryWhereDistinct
+    on QueryBuilder<NSBlock, NSBlock, QDistinct> {
+  QueryBuilder<NSBlock, NSBlock, QDistinct> distinctByBlockHash(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'blockHash', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QDistinct> distinctByBlockHeight() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'blockHeight');
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QDistinct> distinctByBurnCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'burnCount');
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QDistinct> distinctByBurnVolume() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'burnVolume');
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QDistinct> distinctByIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isEmpty');
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QDistinct> distinctByPegInCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'pegInCount');
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QDistinct> distinctByPegInVolume() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'pegInVolume');
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QDistinct> distinctByPegOutCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'pegOutCount');
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QDistinct> distinctByPegOutVolume() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'pegOutVolume');
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QDistinct> distinctBySwapCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'swapCount');
+    });
+  }
+
+  QueryBuilder<NSBlock, NSBlock, QDistinct> distinctByTxCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'txCount');
+    });
+  }
+}
+
+extension NSBlockQueryProperty
+    on QueryBuilder<NSBlock, NSBlock, QQueryProperty> {
+  QueryBuilder<NSBlock, int, QQueryOperations> idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<NSBlock, String?, QQueryOperations> blockHashProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'blockHash');
+    });
+  }
+
+  QueryBuilder<NSBlock, int?, QQueryOperations> blockHeightProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'blockHeight');
+    });
+  }
+
+  QueryBuilder<NSBlock, int?, QQueryOperations> burnCountProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'burnCount');
+    });
+  }
+
+  QueryBuilder<NSBlock, int?, QQueryOperations> burnVolumeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'burnVolume');
+    });
+  }
+
+  QueryBuilder<NSBlock, bool, QQueryOperations> isEmptyProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isEmpty');
+    });
+  }
+
+  QueryBuilder<NSBlock, int?, QQueryOperations> pegInCountProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'pegInCount');
+    });
+  }
+
+  QueryBuilder<NSBlock, int?, QQueryOperations> pegInVolumeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'pegInVolume');
+    });
+  }
+
+  QueryBuilder<NSBlock, int?, QQueryOperations> pegOutCountProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'pegOutCount');
+    });
+  }
+
+  QueryBuilder<NSBlock, int?, QQueryOperations> pegOutVolumeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'pegOutVolume');
+    });
+  }
+
+  QueryBuilder<NSBlock, int?, QQueryOperations> swapCountProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'swapCount');
+    });
+  }
+
+  QueryBuilder<NSBlock, int?, QQueryOperations> txCountProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'txCount');
+    });
+  }
+}
+
 // **************************************************************************
 // IsarEmbeddedGenerator
 // **************************************************************************
@@ -2644,5 +4354,43 @@ Map<String, dynamic> _$NSSwapsToJson(NSSwaps instance) {
   writeNotNull('swapVolume24h', instance.swapVolume24h);
   writeNotNull('swapVolume30d', instance.swapVolume30d);
   writeNotNull('swapVolume1y', instance.swapVolume1y);
+  return val;
+}
+
+NSBlock _$NSBlockFromJson(Map json) => NSBlock(
+      id: json['id'] as int? ?? Isar.autoIncrement,
+      blockHash: json['blockHash'] as String?,
+      blockHeight: json['blockHeight'] as int?,
+      txCount: json['txCount'] as int?,
+      pegInCount: json['pegInCount'] as int?,
+      pegInVolume: json['pegInVolume'] as int?,
+      pegOutCount: json['pegOutCount'] as int?,
+      pegOutVolume: json['pegOutVolume'] as int?,
+      burnCount: json['burnCount'] as int?,
+      burnVolume: json['burnVolume'] as int?,
+      swapCount: json['swapCount'] as int?,
+    );
+
+Map<String, dynamic> _$NSBlockToJson(NSBlock instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('blockHeight', instance.blockHeight);
+  writeNotNull('blockHash', instance.blockHash);
+  writeNotNull('txCount', instance.txCount);
+  writeNotNull('pegInCount', instance.pegInCount);
+  writeNotNull('pegInVolume', instance.pegInVolume);
+  writeNotNull('pegOutCount', instance.pegOutCount);
+  writeNotNull('pegOutVolume', instance.pegOutVolume);
+  writeNotNull('burnCount', instance.burnCount);
+  writeNotNull('burnVolume', instance.burnVolume);
+  writeNotNull('swapCount', instance.swapCount);
   return val;
 }

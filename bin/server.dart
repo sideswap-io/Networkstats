@@ -17,16 +17,16 @@ void main(List<String> args) async {
   await Isar.initializeIsarCore(download: true);
 
   final isar = await Isar.open(
-    [NetworkStatsSchema],
+    [
+      NetworkStatsSchema,
+      NSBlockSchema,
+    ],
     directory: "data/",
     inspector: false,
   );
 
   final networkStats =
       await isar.networkStats.where().findFirst() ?? NetworkStats();
-
-  final networkStatsCount = await isar.networkStats.count();
-  logger.i('Count $networkStatsCount');
 
   Stream<void> networkStatesChanged =
       isar.networkStats.watchObject(networkStats.id);

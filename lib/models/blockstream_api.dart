@@ -155,9 +155,9 @@ class BSTransactionIssuance with _$BSTransactionIssuance {
     @JsonKey(name: 'asset_entropy') String? assetEntropy,
     @JsonKey(name: 'contract_hash') String? contractHash,
     int? assetamount,
-    int? assetamountcommitment,
+    String? assetamountcommitment,
     int? tokenamount,
-    int? tokenamountcommitment,
+    String? tokenamountcommitment,
   }) = _BSTransactionIssuance;
 
   factory BSTransactionIssuance.fromJson(Map<String, dynamic> json) =>
@@ -200,4 +200,43 @@ class BSTransaction with _$BSTransaction {
 
   factory BSTransaction.fromJson(Map<String, dynamic> json) =>
       _$BSTransactionFromJson(json);
+}
+
+@freezed
+class BSBlockTransactions with _$BSBlockTransactions {
+  const factory BSBlockTransactions({
+    List<BSTransaction>? transactions,
+  }) = _BSBlockTransactions;
+
+  factory BSBlockTransactions.fromJson(Map<String, dynamic> json) =>
+      _$BSBlockTransactionsFromJson(json);
+}
+
+@freezed
+class BSBlocks with _$BSBlocks {
+  const factory BSBlocks({
+    List<BSBlock>? blocks,
+  }) = _BSBlocks;
+
+  factory BSBlocks.fromJson(Map<String, dynamic> json) =>
+      _$BSBlocksFromJson(json);
+}
+
+@freezed
+class BSBlock with _$BSBlock {
+  const factory BSBlock({
+    String? id,
+    int? height,
+    int? version,
+    int? timestamp,
+    @JsonKey(name: 'tx_count') int? txCount,
+    int? size,
+    int? weight,
+    @JsonKey(name: 'merkle_root') String? merkleRoot,
+    String? previousblockhash,
+    int? mediantime,
+  }) = _BSBlock;
+
+  factory BSBlock.fromJson(Map<String, dynamic> json) =>
+      _$BSBlockFromJson(json);
 }

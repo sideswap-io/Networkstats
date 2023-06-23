@@ -9,7 +9,10 @@ Future<void> withIsar(Future<void> Function(Isar isar) fn) async {
     await Isar.initializeIsarCore(download: true);
 
     _isar = await Isar.open(
-      [NetworkStatsSchema],
+      [
+        NetworkStatsSchema,
+        NSBlockSchema,
+      ],
       directory: "data/",
       inspector: false,
     );

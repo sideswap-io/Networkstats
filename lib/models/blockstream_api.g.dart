@@ -302,9 +302,9 @@ _$_BSTransactionIssuance _$$_BSTransactionIssuanceFromJson(Map json) =>
       assetEntropy: json['asset_entropy'] as String?,
       contractHash: json['contract_hash'] as String?,
       assetamount: json['assetamount'] as int?,
-      assetamountcommitment: json['assetamountcommitment'] as int?,
+      assetamountcommitment: json['assetamountcommitment'] as String?,
       tokenamount: json['tokenamount'] as int?,
-      tokenamountcommitment: json['tokenamountcommitment'] as int?,
+      tokenamountcommitment: json['tokenamountcommitment'] as String?,
     );
 
 Map<String, dynamic> _$$_BSTransactionIssuanceToJson(
@@ -410,5 +410,82 @@ Map<String, dynamic> _$$_BSTransactionToJson(_$_BSTransaction instance) {
   writeNotNull('vin', instance.vin?.map((e) => e.toJson()).toList());
   writeNotNull('vout', instance.vout?.map((e) => e.toJson()).toList());
   writeNotNull('status', instance.status?.toJson());
+  return val;
+}
+
+_$_BSBlockTransactions _$$_BSBlockTransactionsFromJson(Map json) =>
+    _$_BSBlockTransactions(
+      transactions: (json['transactions'] as List<dynamic>?)
+          ?.map((e) =>
+              BSTransaction.fromJson(Map<String, dynamic>.from(e as Map)))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$_BSBlockTransactionsToJson(
+    _$_BSBlockTransactions instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'transactions', instance.transactions?.map((e) => e.toJson()).toList());
+  return val;
+}
+
+_$_BSBlocks _$$_BSBlocksFromJson(Map json) => _$_BSBlocks(
+      blocks: (json['blocks'] as List<dynamic>?)
+          ?.map((e) => BSBlock.fromJson(Map<String, dynamic>.from(e as Map)))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$_BSBlocksToJson(_$_BSBlocks instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('blocks', instance.blocks?.map((e) => e.toJson()).toList());
+  return val;
+}
+
+_$_BSBlock _$$_BSBlockFromJson(Map json) => _$_BSBlock(
+      id: json['id'] as String?,
+      height: json['height'] as int?,
+      version: json['version'] as int?,
+      timestamp: json['timestamp'] as int?,
+      txCount: json['tx_count'] as int?,
+      size: json['size'] as int?,
+      weight: json['weight'] as int?,
+      merkleRoot: json['merkle_root'] as String?,
+      previousblockhash: json['previousblockhash'] as String?,
+      mediantime: json['mediantime'] as int?,
+    );
+
+Map<String, dynamic> _$$_BSBlockToJson(_$_BSBlock instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('height', instance.height);
+  writeNotNull('version', instance.version);
+  writeNotNull('timestamp', instance.timestamp);
+  writeNotNull('tx_count', instance.txCount);
+  writeNotNull('size', instance.size);
+  writeNotNull('weight', instance.weight);
+  writeNotNull('merkle_root', instance.merkleRoot);
+  writeNotNull('previousblockhash', instance.previousblockhash);
+  writeNotNull('mediantime', instance.mediantime);
   return val;
 }

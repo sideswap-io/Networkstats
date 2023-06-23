@@ -143,3 +143,68 @@ class NSSwaps {
 
   Map<String, dynamic> toJson() => _$NSSwapsToJson(this);
 }
+
+@JsonSerializable()
+@Collection()
+class NSBlock {
+  Id id = Isar.autoIncrement;
+
+  @Index(unique: true)
+  int? blockHeight;
+
+  String? blockHash;
+  int? txCount;
+  int? pegInCount;
+  int? pegInVolume;
+  int? pegOutCount;
+  int? pegOutVolume;
+  int? burnCount;
+  int? burnVolume;
+  int? swapCount;
+
+  NSBlock({
+    this.id = Isar.autoIncrement,
+    this.blockHash,
+    this.blockHeight,
+    this.txCount,
+    this.pegInCount,
+    this.pegInVolume,
+    this.pegOutCount,
+    this.pegOutVolume,
+    this.burnCount,
+    this.burnVolume,
+    this.swapCount,
+  });
+
+  factory NSBlock.empty({required int blockHeight}) {
+    return NSBlock(
+      blockHeight: blockHeight,
+      blockHash: '',
+      txCount: 0,
+      pegInCount: 0,
+      pegInVolume: 0,
+      pegOutCount: 0,
+      pegOutVolume: 0,
+      burnCount: 0,
+      burnVolume: 0,
+      swapCount: 0,
+    );
+  }
+
+  bool get isEmpty {
+    return txCount == 0 &&
+        blockHash == '' &&
+        pegInCount == 0 &&
+        pegInVolume == 0 &&
+        pegOutCount == 0 &&
+        pegOutVolume == 0 &&
+        burnCount == 0 &&
+        burnVolume == 0 &&
+        swapCount == 0;
+  }
+
+  factory NSBlock.fromJson(Map<String, dynamic> json) =>
+      _$NSBlockFromJson(json);
+
+  Map<String, dynamic> toJson() => _$NSBlockToJson(this);
+}

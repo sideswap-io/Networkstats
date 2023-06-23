@@ -2622,9 +2622,9 @@ mixin _$BSTransactionIssuance {
   @JsonKey(name: 'contract_hash')
   String? get contractHash => throw _privateConstructorUsedError;
   int? get assetamount => throw _privateConstructorUsedError;
-  int? get assetamountcommitment => throw _privateConstructorUsedError;
+  String? get assetamountcommitment => throw _privateConstructorUsedError;
   int? get tokenamount => throw _privateConstructorUsedError;
-  int? get tokenamountcommitment => throw _privateConstructorUsedError;
+  String? get tokenamountcommitment => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -2645,9 +2645,9 @@ abstract class $BSTransactionIssuanceCopyWith<$Res> {
       @JsonKey(name: 'asset_entropy') String? assetEntropy,
       @JsonKey(name: 'contract_hash') String? contractHash,
       int? assetamount,
-      int? assetamountcommitment,
+      String? assetamountcommitment,
       int? tokenamount,
-      int? tokenamountcommitment});
+      String? tokenamountcommitment});
 }
 
 /// @nodoc
@@ -2702,7 +2702,7 @@ class _$BSTransactionIssuanceCopyWithImpl<$Res,
       assetamountcommitment: freezed == assetamountcommitment
           ? _value.assetamountcommitment
           : assetamountcommitment // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       tokenamount: freezed == tokenamount
           ? _value.tokenamount
           : tokenamount // ignore: cast_nullable_to_non_nullable
@@ -2710,7 +2710,7 @@ class _$BSTransactionIssuanceCopyWithImpl<$Res,
       tokenamountcommitment: freezed == tokenamountcommitment
           ? _value.tokenamountcommitment
           : tokenamountcommitment // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
     ) as $Val);
   }
 }
@@ -2730,9 +2730,9 @@ abstract class _$$_BSTransactionIssuanceCopyWith<$Res>
       @JsonKey(name: 'asset_entropy') String? assetEntropy,
       @JsonKey(name: 'contract_hash') String? contractHash,
       int? assetamount,
-      int? assetamountcommitment,
+      String? assetamountcommitment,
       int? tokenamount,
-      int? tokenamountcommitment});
+      String? tokenamountcommitment});
 }
 
 /// @nodoc
@@ -2784,7 +2784,7 @@ class __$$_BSTransactionIssuanceCopyWithImpl<$Res>
       assetamountcommitment: freezed == assetamountcommitment
           ? _value.assetamountcommitment
           : assetamountcommitment // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       tokenamount: freezed == tokenamount
           ? _value.tokenamount
           : tokenamount // ignore: cast_nullable_to_non_nullable
@@ -2792,7 +2792,7 @@ class __$$_BSTransactionIssuanceCopyWithImpl<$Res>
       tokenamountcommitment: freezed == tokenamountcommitment
           ? _value.tokenamountcommitment
           : tokenamountcommitment // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
     ));
   }
 }
@@ -2832,11 +2832,11 @@ class _$_BSTransactionIssuance implements _BSTransactionIssuance {
   @override
   final int? assetamount;
   @override
-  final int? assetamountcommitment;
+  final String? assetamountcommitment;
   @override
   final int? tokenamount;
   @override
-  final int? tokenamountcommitment;
+  final String? tokenamountcommitment;
 
   @override
   String toString() {
@@ -2904,9 +2904,9 @@ abstract class _BSTransactionIssuance implements BSTransactionIssuance {
       @JsonKey(name: 'asset_entropy') final String? assetEntropy,
       @JsonKey(name: 'contract_hash') final String? contractHash,
       final int? assetamount,
-      final int? assetamountcommitment,
+      final String? assetamountcommitment,
       final int? tokenamount,
-      final int? tokenamountcommitment}) = _$_BSTransactionIssuance;
+      final String? tokenamountcommitment}) = _$_BSTransactionIssuance;
 
   factory _BSTransactionIssuance.fromJson(Map<String, dynamic> json) =
       _$_BSTransactionIssuance.fromJson;
@@ -2929,11 +2929,11 @@ abstract class _BSTransactionIssuance implements BSTransactionIssuance {
   @override
   int? get assetamount;
   @override
-  int? get assetamountcommitment;
+  String? get assetamountcommitment;
   @override
   int? get tokenamount;
   @override
-  int? get tokenamountcommitment;
+  String? get tokenamountcommitment;
   @override
   @JsonKey(ignore: true)
   _$$_BSTransactionIssuanceCopyWith<_$_BSTransactionIssuance> get copyWith =>
@@ -3717,5 +3717,620 @@ abstract class _BSTransaction implements BSTransaction {
   @override
   @JsonKey(ignore: true)
   _$$_BSTransactionCopyWith<_$_BSTransaction> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+BSBlockTransactions _$BSBlockTransactionsFromJson(Map<String, dynamic> json) {
+  return _BSBlockTransactions.fromJson(json);
+}
+
+/// @nodoc
+mixin _$BSBlockTransactions {
+  List<BSTransaction>? get transactions => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $BSBlockTransactionsCopyWith<BSBlockTransactions> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $BSBlockTransactionsCopyWith<$Res> {
+  factory $BSBlockTransactionsCopyWith(
+          BSBlockTransactions value, $Res Function(BSBlockTransactions) then) =
+      _$BSBlockTransactionsCopyWithImpl<$Res, BSBlockTransactions>;
+  @useResult
+  $Res call({List<BSTransaction>? transactions});
+}
+
+/// @nodoc
+class _$BSBlockTransactionsCopyWithImpl<$Res, $Val extends BSBlockTransactions>
+    implements $BSBlockTransactionsCopyWith<$Res> {
+  _$BSBlockTransactionsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? transactions = freezed,
+  }) {
+    return _then(_value.copyWith(
+      transactions: freezed == transactions
+          ? _value.transactions
+          : transactions // ignore: cast_nullable_to_non_nullable
+              as List<BSTransaction>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_BSBlockTransactionsCopyWith<$Res>
+    implements $BSBlockTransactionsCopyWith<$Res> {
+  factory _$$_BSBlockTransactionsCopyWith(_$_BSBlockTransactions value,
+          $Res Function(_$_BSBlockTransactions) then) =
+      __$$_BSBlockTransactionsCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({List<BSTransaction>? transactions});
+}
+
+/// @nodoc
+class __$$_BSBlockTransactionsCopyWithImpl<$Res>
+    extends _$BSBlockTransactionsCopyWithImpl<$Res, _$_BSBlockTransactions>
+    implements _$$_BSBlockTransactionsCopyWith<$Res> {
+  __$$_BSBlockTransactionsCopyWithImpl(_$_BSBlockTransactions _value,
+      $Res Function(_$_BSBlockTransactions) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? transactions = freezed,
+  }) {
+    return _then(_$_BSBlockTransactions(
+      transactions: freezed == transactions
+          ? _value._transactions
+          : transactions // ignore: cast_nullable_to_non_nullable
+              as List<BSTransaction>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_BSBlockTransactions implements _BSBlockTransactions {
+  const _$_BSBlockTransactions({final List<BSTransaction>? transactions})
+      : _transactions = transactions;
+
+  factory _$_BSBlockTransactions.fromJson(Map<String, dynamic> json) =>
+      _$$_BSBlockTransactionsFromJson(json);
+
+  final List<BSTransaction>? _transactions;
+  @override
+  List<BSTransaction>? get transactions {
+    final value = _transactions;
+    if (value == null) return null;
+    if (_transactions is EqualUnmodifiableListView) return _transactions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'BSBlockTransactions(transactions: $transactions)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_BSBlockTransactions &&
+            const DeepCollectionEquality()
+                .equals(other._transactions, _transactions));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_transactions));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_BSBlockTransactionsCopyWith<_$_BSBlockTransactions> get copyWith =>
+      __$$_BSBlockTransactionsCopyWithImpl<_$_BSBlockTransactions>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_BSBlockTransactionsToJson(
+      this,
+    );
+  }
+}
+
+abstract class _BSBlockTransactions implements BSBlockTransactions {
+  const factory _BSBlockTransactions(
+      {final List<BSTransaction>? transactions}) = _$_BSBlockTransactions;
+
+  factory _BSBlockTransactions.fromJson(Map<String, dynamic> json) =
+      _$_BSBlockTransactions.fromJson;
+
+  @override
+  List<BSTransaction>? get transactions;
+  @override
+  @JsonKey(ignore: true)
+  _$$_BSBlockTransactionsCopyWith<_$_BSBlockTransactions> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+BSBlocks _$BSBlocksFromJson(Map<String, dynamic> json) {
+  return _BSBlocks.fromJson(json);
+}
+
+/// @nodoc
+mixin _$BSBlocks {
+  List<BSBlock>? get blocks => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $BSBlocksCopyWith<BSBlocks> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $BSBlocksCopyWith<$Res> {
+  factory $BSBlocksCopyWith(BSBlocks value, $Res Function(BSBlocks) then) =
+      _$BSBlocksCopyWithImpl<$Res, BSBlocks>;
+  @useResult
+  $Res call({List<BSBlock>? blocks});
+}
+
+/// @nodoc
+class _$BSBlocksCopyWithImpl<$Res, $Val extends BSBlocks>
+    implements $BSBlocksCopyWith<$Res> {
+  _$BSBlocksCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? blocks = freezed,
+  }) {
+    return _then(_value.copyWith(
+      blocks: freezed == blocks
+          ? _value.blocks
+          : blocks // ignore: cast_nullable_to_non_nullable
+              as List<BSBlock>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_BSBlocksCopyWith<$Res> implements $BSBlocksCopyWith<$Res> {
+  factory _$$_BSBlocksCopyWith(
+          _$_BSBlocks value, $Res Function(_$_BSBlocks) then) =
+      __$$_BSBlocksCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({List<BSBlock>? blocks});
+}
+
+/// @nodoc
+class __$$_BSBlocksCopyWithImpl<$Res>
+    extends _$BSBlocksCopyWithImpl<$Res, _$_BSBlocks>
+    implements _$$_BSBlocksCopyWith<$Res> {
+  __$$_BSBlocksCopyWithImpl(
+      _$_BSBlocks _value, $Res Function(_$_BSBlocks) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? blocks = freezed,
+  }) {
+    return _then(_$_BSBlocks(
+      blocks: freezed == blocks
+          ? _value._blocks
+          : blocks // ignore: cast_nullable_to_non_nullable
+              as List<BSBlock>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_BSBlocks implements _BSBlocks {
+  const _$_BSBlocks({final List<BSBlock>? blocks}) : _blocks = blocks;
+
+  factory _$_BSBlocks.fromJson(Map<String, dynamic> json) =>
+      _$$_BSBlocksFromJson(json);
+
+  final List<BSBlock>? _blocks;
+  @override
+  List<BSBlock>? get blocks {
+    final value = _blocks;
+    if (value == null) return null;
+    if (_blocks is EqualUnmodifiableListView) return _blocks;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'BSBlocks(blocks: $blocks)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_BSBlocks &&
+            const DeepCollectionEquality().equals(other._blocks, _blocks));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_blocks));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_BSBlocksCopyWith<_$_BSBlocks> get copyWith =>
+      __$$_BSBlocksCopyWithImpl<_$_BSBlocks>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_BSBlocksToJson(
+      this,
+    );
+  }
+}
+
+abstract class _BSBlocks implements BSBlocks {
+  const factory _BSBlocks({final List<BSBlock>? blocks}) = _$_BSBlocks;
+
+  factory _BSBlocks.fromJson(Map<String, dynamic> json) = _$_BSBlocks.fromJson;
+
+  @override
+  List<BSBlock>? get blocks;
+  @override
+  @JsonKey(ignore: true)
+  _$$_BSBlocksCopyWith<_$_BSBlocks> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+BSBlock _$BSBlockFromJson(Map<String, dynamic> json) {
+  return _BSBlock.fromJson(json);
+}
+
+/// @nodoc
+mixin _$BSBlock {
+  String? get id => throw _privateConstructorUsedError;
+  int? get height => throw _privateConstructorUsedError;
+  int? get version => throw _privateConstructorUsedError;
+  int? get timestamp => throw _privateConstructorUsedError;
+  @JsonKey(name: 'tx_count')
+  int? get txCount => throw _privateConstructorUsedError;
+  int? get size => throw _privateConstructorUsedError;
+  int? get weight => throw _privateConstructorUsedError;
+  @JsonKey(name: 'merkle_root')
+  String? get merkleRoot => throw _privateConstructorUsedError;
+  String? get previousblockhash => throw _privateConstructorUsedError;
+  int? get mediantime => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $BSBlockCopyWith<BSBlock> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $BSBlockCopyWith<$Res> {
+  factory $BSBlockCopyWith(BSBlock value, $Res Function(BSBlock) then) =
+      _$BSBlockCopyWithImpl<$Res, BSBlock>;
+  @useResult
+  $Res call(
+      {String? id,
+      int? height,
+      int? version,
+      int? timestamp,
+      @JsonKey(name: 'tx_count') int? txCount,
+      int? size,
+      int? weight,
+      @JsonKey(name: 'merkle_root') String? merkleRoot,
+      String? previousblockhash,
+      int? mediantime});
+}
+
+/// @nodoc
+class _$BSBlockCopyWithImpl<$Res, $Val extends BSBlock>
+    implements $BSBlockCopyWith<$Res> {
+  _$BSBlockCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? height = freezed,
+    Object? version = freezed,
+    Object? timestamp = freezed,
+    Object? txCount = freezed,
+    Object? size = freezed,
+    Object? weight = freezed,
+    Object? merkleRoot = freezed,
+    Object? previousblockhash = freezed,
+    Object? mediantime = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      height: freezed == height
+          ? _value.height
+          : height // ignore: cast_nullable_to_non_nullable
+              as int?,
+      version: freezed == version
+          ? _value.version
+          : version // ignore: cast_nullable_to_non_nullable
+              as int?,
+      timestamp: freezed == timestamp
+          ? _value.timestamp
+          : timestamp // ignore: cast_nullable_to_non_nullable
+              as int?,
+      txCount: freezed == txCount
+          ? _value.txCount
+          : txCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      size: freezed == size
+          ? _value.size
+          : size // ignore: cast_nullable_to_non_nullable
+              as int?,
+      weight: freezed == weight
+          ? _value.weight
+          : weight // ignore: cast_nullable_to_non_nullable
+              as int?,
+      merkleRoot: freezed == merkleRoot
+          ? _value.merkleRoot
+          : merkleRoot // ignore: cast_nullable_to_non_nullable
+              as String?,
+      previousblockhash: freezed == previousblockhash
+          ? _value.previousblockhash
+          : previousblockhash // ignore: cast_nullable_to_non_nullable
+              as String?,
+      mediantime: freezed == mediantime
+          ? _value.mediantime
+          : mediantime // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_BSBlockCopyWith<$Res> implements $BSBlockCopyWith<$Res> {
+  factory _$$_BSBlockCopyWith(
+          _$_BSBlock value, $Res Function(_$_BSBlock) then) =
+      __$$_BSBlockCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String? id,
+      int? height,
+      int? version,
+      int? timestamp,
+      @JsonKey(name: 'tx_count') int? txCount,
+      int? size,
+      int? weight,
+      @JsonKey(name: 'merkle_root') String? merkleRoot,
+      String? previousblockhash,
+      int? mediantime});
+}
+
+/// @nodoc
+class __$$_BSBlockCopyWithImpl<$Res>
+    extends _$BSBlockCopyWithImpl<$Res, _$_BSBlock>
+    implements _$$_BSBlockCopyWith<$Res> {
+  __$$_BSBlockCopyWithImpl(_$_BSBlock _value, $Res Function(_$_BSBlock) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? height = freezed,
+    Object? version = freezed,
+    Object? timestamp = freezed,
+    Object? txCount = freezed,
+    Object? size = freezed,
+    Object? weight = freezed,
+    Object? merkleRoot = freezed,
+    Object? previousblockhash = freezed,
+    Object? mediantime = freezed,
+  }) {
+    return _then(_$_BSBlock(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      height: freezed == height
+          ? _value.height
+          : height // ignore: cast_nullable_to_non_nullable
+              as int?,
+      version: freezed == version
+          ? _value.version
+          : version // ignore: cast_nullable_to_non_nullable
+              as int?,
+      timestamp: freezed == timestamp
+          ? _value.timestamp
+          : timestamp // ignore: cast_nullable_to_non_nullable
+              as int?,
+      txCount: freezed == txCount
+          ? _value.txCount
+          : txCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      size: freezed == size
+          ? _value.size
+          : size // ignore: cast_nullable_to_non_nullable
+              as int?,
+      weight: freezed == weight
+          ? _value.weight
+          : weight // ignore: cast_nullable_to_non_nullable
+              as int?,
+      merkleRoot: freezed == merkleRoot
+          ? _value.merkleRoot
+          : merkleRoot // ignore: cast_nullable_to_non_nullable
+              as String?,
+      previousblockhash: freezed == previousblockhash
+          ? _value.previousblockhash
+          : previousblockhash // ignore: cast_nullable_to_non_nullable
+              as String?,
+      mediantime: freezed == mediantime
+          ? _value.mediantime
+          : mediantime // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_BSBlock implements _BSBlock {
+  const _$_BSBlock(
+      {this.id,
+      this.height,
+      this.version,
+      this.timestamp,
+      @JsonKey(name: 'tx_count') this.txCount,
+      this.size,
+      this.weight,
+      @JsonKey(name: 'merkle_root') this.merkleRoot,
+      this.previousblockhash,
+      this.mediantime});
+
+  factory _$_BSBlock.fromJson(Map<String, dynamic> json) =>
+      _$$_BSBlockFromJson(json);
+
+  @override
+  final String? id;
+  @override
+  final int? height;
+  @override
+  final int? version;
+  @override
+  final int? timestamp;
+  @override
+  @JsonKey(name: 'tx_count')
+  final int? txCount;
+  @override
+  final int? size;
+  @override
+  final int? weight;
+  @override
+  @JsonKey(name: 'merkle_root')
+  final String? merkleRoot;
+  @override
+  final String? previousblockhash;
+  @override
+  final int? mediantime;
+
+  @override
+  String toString() {
+    return 'BSBlock(id: $id, height: $height, version: $version, timestamp: $timestamp, txCount: $txCount, size: $size, weight: $weight, merkleRoot: $merkleRoot, previousblockhash: $previousblockhash, mediantime: $mediantime)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_BSBlock &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.height, height) || other.height == height) &&
+            (identical(other.version, version) || other.version == version) &&
+            (identical(other.timestamp, timestamp) ||
+                other.timestamp == timestamp) &&
+            (identical(other.txCount, txCount) || other.txCount == txCount) &&
+            (identical(other.size, size) || other.size == size) &&
+            (identical(other.weight, weight) || other.weight == weight) &&
+            (identical(other.merkleRoot, merkleRoot) ||
+                other.merkleRoot == merkleRoot) &&
+            (identical(other.previousblockhash, previousblockhash) ||
+                other.previousblockhash == previousblockhash) &&
+            (identical(other.mediantime, mediantime) ||
+                other.mediantime == mediantime));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, height, version, timestamp,
+      txCount, size, weight, merkleRoot, previousblockhash, mediantime);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_BSBlockCopyWith<_$_BSBlock> get copyWith =>
+      __$$_BSBlockCopyWithImpl<_$_BSBlock>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_BSBlockToJson(
+      this,
+    );
+  }
+}
+
+abstract class _BSBlock implements BSBlock {
+  const factory _BSBlock(
+      {final String? id,
+      final int? height,
+      final int? version,
+      final int? timestamp,
+      @JsonKey(name: 'tx_count') final int? txCount,
+      final int? size,
+      final int? weight,
+      @JsonKey(name: 'merkle_root') final String? merkleRoot,
+      final String? previousblockhash,
+      final int? mediantime}) = _$_BSBlock;
+
+  factory _BSBlock.fromJson(Map<String, dynamic> json) = _$_BSBlock.fromJson;
+
+  @override
+  String? get id;
+  @override
+  int? get height;
+  @override
+  int? get version;
+  @override
+  int? get timestamp;
+  @override
+  @JsonKey(name: 'tx_count')
+  int? get txCount;
+  @override
+  int? get size;
+  @override
+  int? get weight;
+  @override
+  @JsonKey(name: 'merkle_root')
+  String? get merkleRoot;
+  @override
+  String? get previousblockhash;
+  @override
+  int? get mediantime;
+  @override
+  @JsonKey(ignore: true)
+  _$$_BSBlockCopyWith<_$_BSBlock> get copyWith =>
       throw _privateConstructorUsedError;
 }

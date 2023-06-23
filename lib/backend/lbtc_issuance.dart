@@ -17,7 +17,6 @@ class LbtcIssuance extends EsploraApiInterface
     final client = RetryClient(http.Client(), whenError: whenError);
 
     try {
-      logger.i('Gathering L-BTC issuance');
       Uri uri = Uri.parse(
           '${Configuration.liquid}/asset/6f0279e9ed041c3d710a9f57d0c02928416460c4b722ae3457a11eec381c526d');
 
@@ -78,13 +77,9 @@ class LbtcIssuance extends EsploraApiInterface
       networkStats.lbtcIssuance?.circulatingAmount = circulatingAmount;
       networkStats.id = 0;
 
-      logger.i(networkStats.toJson());
-
       await isar.writeTxn(() async {
         await isar.networkStats.put(networkStats);
       });
-
-      logger.i('${this.runtimeType} done');
     } catch (e) {
       logger.e(e);
     }
