@@ -87,9 +87,9 @@ class StatsBackend extends Backend {
 
     ProcessSignal.sigint.watch().listen((event) async {
       logger.i("Exiting backend service.");
-      // await blockScheduler.stop();
-      // await missingBlockScheduler.stop();
-      // await lbtcIssuanceScheduler.stop();
+      await blockScheduler.stop();
+      await missingBlockScheduler.stop();
+      await lbtcIssuanceScheduler.stop();
       await statsScheduler.stop();
       await isar.close();
       logger.i("Backend service done.");
