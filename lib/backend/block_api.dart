@@ -18,7 +18,7 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
   BlockApi(super.isar);
 
   Future<void> scrape() async {
-    final startBlockResult = await getStartBlockHeight();
+    final startBlockResult = await _getStartBlockHeight();
 
     var startBlockHeight = startBlockResult.match((l) {
       logger.e(l);
@@ -28,9 +28,10 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
       return;
     }
 
-    startBlockHeight = 1875709;
+    // TODO: remove
+    // startBlockHeight = 2399218;
 
-    final blocksResult = await getBlocks(startBlock: startBlockHeight);
+    final blocksResult = await _getBlocks(startBlock: startBlockHeight);
 
     final blocks = blocksResult.match((l) {
       logger.e(l);
@@ -46,46 +47,118 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
 
     final stopwatch = Stopwatch()..start();
     for (var block in blocks.blocks!) {
-      final nsblockResult = await parseBlock(block: block);
-      final nsblock = nsblockResult.match((l) {
-        logger.e(l);
-      }, (r) => r);
-
-      if (nsblock == null) {
-        logger.w('Unable to parse block: ${block.id} height: ${block.height}');
-        break;
-      }
-
-      try {
-        final existingBlock = await isar.nSBlocks
-            .where()
-            .blockHeightEqualTo(block.height)
-            .findFirst();
-        if (existingBlock != null) {
-          logger.i('Block ${existingBlock.id} found in db, updating.');
-          nsblock.id = existingBlock.id;
-        }
-
-        await isar.writeTxn(() async {
-          await isar.nSBlocks.put(nsblock);
-        });
-      } catch (e, st) {
-        logger.e(e);
-        logger.e(st);
-      }
+      await _parseAndUpdateSingleBlock(block: block);
     }
 
     logger
         .i('Parsing ${blocks.blocks!.length} blocks took ${stopwatch.elapsed}');
   }
 
-  Future<void> saveData({required data}) async {}
+  Future<void> scrapeMissingBlocks() async {
+    logger.i('Checking db for missing blocks');
+    final savedBlocks = await isar.nSBlocks.where(sort: Sort.desc).findAll();
 
-  Future<Either<Exception, NSBlock>> parseBlock(
+    logger.i('Read ${savedBlocks.length} blocks from db');
+
+    int missingCounter = 0;
+
+    int? prevBlockHeight;
+    for (var block in savedBlocks) {
+      if (prevBlockHeight == null) {
+        prevBlockHeight = block.blockHeight;
+        continue;
+      }
+
+      final currentBlockHeight = block.blockHeight;
+      if (currentBlockHeight == null) {
+        logger.w('Current block height is empty');
+        return;
+      }
+
+      final missingBlockHeight = prevBlockHeight + 1;
+
+      if (currentBlockHeight != missingBlockHeight) {
+        logger.i('Found missing block $missingBlockHeight');
+        // can't find next block height, collect it again
+        final blockHashResult =
+            await _getBlockHash(blockHeight: missingBlockHeight);
+
+        final blockHash = blockHashResult.match((l) {
+          logger.e(l);
+        }, (r) => r);
+
+        if (blockHash == null) {
+          logger.e('Empty block hash for block $missingBlockHeight');
+          return;
+        }
+
+        // download block
+        final blockResult = await _getSingleBlock(blockHash: blockHash);
+
+        final block = blockResult.match((l) {
+          logger.e(l);
+        }, (r) => r);
+
+        if (block == null) {
+          logger.e('Block ${missingBlockHeight} data is empty');
+          return;
+        }
+
+        // and then parse it
+        await _parseAndUpdateSingleBlock(block: block);
+        logger.i('Block ${block.height} saved.');
+        missingCounter++;
+      }
+
+      prevBlockHeight = block.blockHeight;
+    }
+
+    if (missingCounter != 0) {
+      logger.i('$missingCounter missing blocks updated. Done.');
+    } else {
+      logger.i('Checking missing blocks done.');
+    }
+  }
+
+  Future<bool> _parseAndUpdateSingleBlock({required BSBlock block}) async {
+    final nsblockResult = await _parseBlock(block: block);
+    final nsblock = nsblockResult.match((l) {
+      logger.e(l);
+    }, (r) => r);
+
+    if (nsblock == null) {
+      logger.w('Unable to parse block: ${block.id} height: ${block.height}');
+      return false;
+    }
+
+    try {
+      final existingBlock = await isar.nSBlocks
+          .where()
+          .blockHeightEqualTo(block.height)
+          .findFirst();
+      if (existingBlock != null) {
+        logger.i('Block ${existingBlock.blockHeight} found in db');
+        nsblock.id = existingBlock.id;
+      }
+
+      await isar.writeTxn(() async {
+        await isar.nSBlocks.put(nsblock);
+      });
+    } catch (e, st) {
+      logger.e(e);
+      logger.e(st);
+
+      return false;
+    }
+
+    return true;
+  }
+
+  Future<Either<Exception, NSBlock>> _parseBlock(
       {required BSBlock block}) async {
     logger.i('${block.id} height: ${block.height}');
 
-    final transactionsResult = await getBlockTransactions(block: block);
+    final transactionsResult = await _getBlockTransactions(block: block);
     final bsTransactionList = transactionsResult.match((l) {
       logger.e(l);
     }, (r) => r);
@@ -93,7 +166,8 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
     if (bsTransactionList?.transactions == null) {
       // if empty transaction list
       logger.w('Tx is empty in block ${block.height}');
-      return Right(NSBlock.empty(blockHeight: block.height!));
+      return Left(Exception(
+          'Unable to request transaction list for block ${block.height}'));
     }
 
     final txCount = bsTransactionList!.transactions!.length;
@@ -183,14 +257,13 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
     if (nsblock.pegInCount != 0 ||
         nsblock.pegOutCount != 0 ||
         nsblock.swapCount != 0) {
-      logger.i('Special block info:');
-      logger.i(nsblock.toJson());
+      logger.i(nsblock.toString());
     }
 
     return Right(nsblock);
   }
 
-  Future<Either<Exception, BSBlockTransactions>> getBlockTransactions(
+  Future<Either<Exception, BSBlockTransactions>> _getBlockTransactions(
       {required BSBlock block}) async {
     if (block.id == null) {
       logger.e(block.toJson());
@@ -213,6 +286,7 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
         return Left(Exception(response.reasonPhrase));
       }
     } catch (e, stackTrace) {
+      logger.i('Stay calm, missing block will be fetched later');
       logger.e(e);
       logger.e(stackTrace);
       return Left(Exception(e));
@@ -221,7 +295,7 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
     }
   }
 
-  Future<Either<Exception, BSBlocks>> getBlocks(
+  Future<Either<Exception, BSBlocks>> _getBlocks(
       {required int startBlock}) async {
     final client = RetryClient(http.Client(), whenError: whenError);
 
@@ -256,8 +330,62 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
     }
   }
 
-  Future<Either<Exception, int>> getStartBlockHeight() async {
-    final currentBlockHeightResult = await getApiBlockHeight();
+  Future<Either<Exception, BSBlock>> _getSingleBlock(
+      {required String blockHash}) async {
+    if (blockHash.isEmpty) {
+      return Left(Exception('Block hash cannot be empty'));
+    }
+
+    final client = RetryClient(http.Client(), whenError: whenError);
+
+    Uri uri = Uri.parse('${Configuration.liquid}/block/$blockHash');
+
+    try {
+      final response = await client.get(uri);
+      final statusCode = response.statusCode;
+
+      if (statusCode >= 200 && statusCode < 300) {
+        final json = jsonDecode(response.body) as Map<String, dynamic>;
+        final block = BSBlock.fromJson(json);
+        return Right(block);
+      } else {
+        return Left(Exception(response.reasonPhrase));
+      }
+    } catch (e) {
+      return Left(Exception(e));
+    } finally {
+      client.close();
+    }
+  }
+
+  Future<Either<Exception, String>> _getBlockHash(
+      {required int blockHeight}) async {
+    final client = RetryClient(http.Client(), whenError: whenError);
+
+    // api returns list of 10 blocks from blockheight-10 to blockheight
+    Uri uri = Uri.parse('${Configuration.liquid}/block-height/$blockHeight');
+
+    try {
+      final response = await client.get(uri);
+      final statusCode = response.statusCode;
+
+      if (statusCode >= 200 && statusCode < 300) {
+        if (response.body.isEmpty) {
+          return Left(Exception('Response for block $blockHeight is empty'));
+        }
+        return Right(response.body);
+      } else {
+        return Left(Exception(response.reasonPhrase));
+      }
+    } catch (e) {
+      return Left(Exception(e));
+    } finally {
+      client.close();
+    }
+  }
+
+  Future<Either<Exception, int>> _getStartBlockHeight() async {
+    final currentBlockHeightResult = await _getApiBlockHeight();
 
     final currentBlockHeight = currentBlockHeightResult.match((l) {
       logger.e(l);
@@ -268,7 +396,7 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
     }
 
     final dbBlockHeightResult =
-        await getDbBlockHeight(apiBlockHeight: currentBlockHeight);
+        await _getDbBlockHeight(apiBlockHeight: currentBlockHeight);
     final dbBlockHeight = dbBlockHeightResult.match((l) {
       logger.e(l);
       return currentBlockHeight - maxBlocks;
@@ -277,7 +405,7 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
     return Right(dbBlockHeight);
   }
 
-  Future<Either<Exception, int>> getApiBlockHeight() async {
+  Future<Either<Exception, int>> _getApiBlockHeight() async {
     final client = RetryClient(http.Client(), whenError: whenError);
 
     try {
@@ -299,7 +427,7 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
     }
   }
 
-  Future<Either<Exception, int>> getDbBlockHeight(
+  Future<Either<Exception, int>> _getDbBlockHeight(
       {required int apiBlockHeight}) async {
     final blocksCount = await isar.nSBlocks.count();
 
