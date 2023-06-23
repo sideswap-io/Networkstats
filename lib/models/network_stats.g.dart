@@ -2976,7 +2976,7 @@ const NSPegInSchema = Schema(
     r'pegInVolume1y': PropertySchema(
       id: 0,
       name: r'pegInVolume1y',
-      type: IsarType.long,
+      type: IsarType.double,
     ),
     r'pegInVolume24h': PropertySchema(
       id: 1,
@@ -2986,7 +2986,7 @@ const NSPegInSchema = Schema(
     r'pegInVolume30d': PropertySchema(
       id: 2,
       name: r'pegInVolume30d',
-      type: IsarType.long,
+      type: IsarType.double,
     )
   },
   estimateSize: _nSPegInEstimateSize,
@@ -3010,9 +3010,9 @@ void _nSPegInSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeLong(offsets[0], object.pegInVolume1y);
+  writer.writeDouble(offsets[0], object.pegInVolume1y);
   writer.writeLong(offsets[1], object.pegInVolume24h);
-  writer.writeLong(offsets[2], object.pegInVolume30d);
+  writer.writeDouble(offsets[2], object.pegInVolume30d);
 }
 
 NSPegIn _nSPegInDeserialize(
@@ -3022,9 +3022,9 @@ NSPegIn _nSPegInDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = NSPegIn(
-    pegInVolume1y: reader.readLongOrNull(offsets[0]),
+    pegInVolume1y: reader.readDoubleOrNull(offsets[0]),
     pegInVolume24h: reader.readLongOrNull(offsets[1]),
-    pegInVolume30d: reader.readLongOrNull(offsets[2]),
+    pegInVolume30d: reader.readDoubleOrNull(offsets[2]),
   );
   return object;
 }
@@ -3037,11 +3037,11 @@ P _nSPegInDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 1:
       return (reader.readLongOrNull(offset)) as P;
     case 2:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -3067,47 +3067,55 @@ extension NSPegInQueryFilter
   }
 
   QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInVolume1yEqualTo(
-      int? value) {
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'pegInVolume1y',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition>
       pegInVolume1yGreaterThan(
-    int? value, {
+    double? value, {
     bool include = false,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'pegInVolume1y',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInVolume1yLessThan(
-    int? value, {
+    double? value, {
     bool include = false,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'pegInVolume1y',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInVolume1yBetween(
-    int? lower,
-    int? upper, {
+    double? lower,
+    double? upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -3116,6 +3124,7 @@ extension NSPegInQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        epsilon: epsilon,
       ));
     });
   }
@@ -3209,47 +3218,55 @@ extension NSPegInQueryFilter
   }
 
   QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInVolume30dEqualTo(
-      int? value) {
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'pegInVolume30d',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition>
       pegInVolume30dGreaterThan(
-    int? value, {
+    double? value, {
     bool include = false,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'pegInVolume30d',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInVolume30dLessThan(
-    int? value, {
+    double? value, {
     bool include = false,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'pegInVolume30d',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInVolume30dBetween(
-    int? lower,
-    int? upper, {
+    double? lower,
+    double? upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -3258,6 +3275,7 @@ extension NSPegInQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        epsilon: epsilon,
       ));
     });
   }
@@ -3276,7 +3294,7 @@ const NSPegOutSchema = Schema(
     r'pegOutVolume1y': PropertySchema(
       id: 0,
       name: r'pegOutVolume1y',
-      type: IsarType.long,
+      type: IsarType.double,
     ),
     r'pegOutVolume24h': PropertySchema(
       id: 1,
@@ -3286,7 +3304,7 @@ const NSPegOutSchema = Schema(
     r'pegOutVolume30d': PropertySchema(
       id: 2,
       name: r'pegOutVolume30d',
-      type: IsarType.long,
+      type: IsarType.double,
     )
   },
   estimateSize: _nSPegOutEstimateSize,
@@ -3310,9 +3328,9 @@ void _nSPegOutSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeLong(offsets[0], object.pegOutVolume1y);
+  writer.writeDouble(offsets[0], object.pegOutVolume1y);
   writer.writeLong(offsets[1], object.pegOutVolume24h);
-  writer.writeLong(offsets[2], object.pegOutVolume30d);
+  writer.writeDouble(offsets[2], object.pegOutVolume30d);
 }
 
 NSPegOut _nSPegOutDeserialize(
@@ -3322,9 +3340,9 @@ NSPegOut _nSPegOutDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = NSPegOut(
-    pegOutVolume1y: reader.readLongOrNull(offsets[0]),
+    pegOutVolume1y: reader.readDoubleOrNull(offsets[0]),
     pegOutVolume24h: reader.readLongOrNull(offsets[1]),
-    pegOutVolume30d: reader.readLongOrNull(offsets[2]),
+    pegOutVolume30d: reader.readDoubleOrNull(offsets[2]),
   );
   return object;
 }
@@ -3337,11 +3355,11 @@ P _nSPegOutDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 1:
       return (reader.readLongOrNull(offset)) as P;
     case 2:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -3368,48 +3386,56 @@ extension NSPegOutQueryFilter
   }
 
   QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition> pegOutVolume1yEqualTo(
-      int? value) {
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'pegOutVolume1y',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition>
       pegOutVolume1yGreaterThan(
-    int? value, {
+    double? value, {
     bool include = false,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'pegOutVolume1y',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition>
       pegOutVolume1yLessThan(
-    int? value, {
+    double? value, {
     bool include = false,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'pegOutVolume1y',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition> pegOutVolume1yBetween(
-    int? lower,
-    int? upper, {
+    double? lower,
+    double? upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -3418,6 +3444,7 @@ extension NSPegOutQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        epsilon: epsilon,
       ));
     });
   }
@@ -3515,49 +3542,58 @@ extension NSPegOutQueryFilter
   }
 
   QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition>
-      pegOutVolume30dEqualTo(int? value) {
+      pegOutVolume30dEqualTo(
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'pegOutVolume30d',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition>
       pegOutVolume30dGreaterThan(
-    int? value, {
+    double? value, {
     bool include = false,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'pegOutVolume30d',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition>
       pegOutVolume30dLessThan(
-    int? value, {
+    double? value, {
     bool include = false,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'pegOutVolume30d',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition>
       pegOutVolume30dBetween(
-    int? lower,
-    int? upper, {
+    double? lower,
+    double? upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -3566,6 +3602,7 @@ extension NSPegOutQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        epsilon: epsilon,
       ));
     });
   }
@@ -3584,7 +3621,7 @@ const NSTransactionsSchema = Schema(
     r'txCount1y': PropertySchema(
       id: 0,
       name: r'txCount1y',
-      type: IsarType.long,
+      type: IsarType.double,
     ),
     r'txCount24h': PropertySchema(
       id: 1,
@@ -3594,7 +3631,7 @@ const NSTransactionsSchema = Schema(
     r'txCount30d': PropertySchema(
       id: 2,
       name: r'txCount30d',
-      type: IsarType.long,
+      type: IsarType.double,
     )
   },
   estimateSize: _nSTransactionsEstimateSize,
@@ -3618,9 +3655,9 @@ void _nSTransactionsSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeLong(offsets[0], object.txCount1y);
+  writer.writeDouble(offsets[0], object.txCount1y);
   writer.writeLong(offsets[1], object.txCount24h);
-  writer.writeLong(offsets[2], object.txCount30d);
+  writer.writeDouble(offsets[2], object.txCount30d);
 }
 
 NSTransactions _nSTransactionsDeserialize(
@@ -3630,9 +3667,9 @@ NSTransactions _nSTransactionsDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = NSTransactions(
-    txCount1y: reader.readLongOrNull(offsets[0]),
+    txCount1y: reader.readDoubleOrNull(offsets[0]),
     txCount24h: reader.readLongOrNull(offsets[1]),
-    txCount30d: reader.readLongOrNull(offsets[2]),
+    txCount30d: reader.readDoubleOrNull(offsets[2]),
   );
   return object;
 }
@@ -3645,11 +3682,11 @@ P _nSTransactionsDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 1:
       return (reader.readLongOrNull(offset)) as P;
     case 2:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -3676,49 +3713,58 @@ extension NSTransactionsQueryFilter
   }
 
   QueryBuilder<NSTransactions, NSTransactions, QAfterFilterCondition>
-      txCount1yEqualTo(int? value) {
+      txCount1yEqualTo(
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'txCount1y',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSTransactions, NSTransactions, QAfterFilterCondition>
       txCount1yGreaterThan(
-    int? value, {
+    double? value, {
     bool include = false,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'txCount1y',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSTransactions, NSTransactions, QAfterFilterCondition>
       txCount1yLessThan(
-    int? value, {
+    double? value, {
     bool include = false,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'txCount1y',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSTransactions, NSTransactions, QAfterFilterCondition>
       txCount1yBetween(
-    int? lower,
-    int? upper, {
+    double? lower,
+    double? upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -3727,6 +3773,7 @@ extension NSTransactionsQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        epsilon: epsilon,
       ));
     });
   }
@@ -3824,49 +3871,58 @@ extension NSTransactionsQueryFilter
   }
 
   QueryBuilder<NSTransactions, NSTransactions, QAfterFilterCondition>
-      txCount30dEqualTo(int? value) {
+      txCount30dEqualTo(
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'txCount30d',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSTransactions, NSTransactions, QAfterFilterCondition>
       txCount30dGreaterThan(
-    int? value, {
+    double? value, {
     bool include = false,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'txCount30d',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSTransactions, NSTransactions, QAfterFilterCondition>
       txCount30dLessThan(
-    int? value, {
+    double? value, {
     bool include = false,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'txCount30d',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSTransactions, NSTransactions, QAfterFilterCondition>
       txCount30dBetween(
-    int? lower,
-    int? upper, {
+    double? lower,
+    double? upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -3875,6 +3931,7 @@ extension NSTransactionsQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        epsilon: epsilon,
       ));
     });
   }
@@ -3890,20 +3947,20 @@ const NSSwapsSchema = Schema(
   name: r'NSSwaps',
   id: -5534817351889029316,
   properties: {
-    r'swapVolume1y': PropertySchema(
+    r'swapCount1y': PropertySchema(
       id: 0,
-      name: r'swapVolume1y',
-      type: IsarType.long,
+      name: r'swapCount1y',
+      type: IsarType.double,
     ),
-    r'swapVolume24h': PropertySchema(
+    r'swapCount24h': PropertySchema(
       id: 1,
-      name: r'swapVolume24h',
+      name: r'swapCount24h',
       type: IsarType.long,
     ),
-    r'swapVolume30d': PropertySchema(
+    r'swapCount30d': PropertySchema(
       id: 2,
-      name: r'swapVolume30d',
-      type: IsarType.long,
+      name: r'swapCount30d',
+      type: IsarType.double,
     )
   },
   estimateSize: _nSSwapsEstimateSize,
@@ -3927,9 +3984,9 @@ void _nSSwapsSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeLong(offsets[0], object.swapVolume1y);
-  writer.writeLong(offsets[1], object.swapVolume24h);
-  writer.writeLong(offsets[2], object.swapVolume30d);
+  writer.writeDouble(offsets[0], object.swapCount1y);
+  writer.writeLong(offsets[1], object.swapCount24h);
+  writer.writeDouble(offsets[2], object.swapCount30d);
 }
 
 NSSwaps _nSSwapsDeserialize(
@@ -3939,9 +3996,9 @@ NSSwaps _nSSwapsDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = NSSwaps(
-    swapVolume1y: reader.readLongOrNull(offsets[0]),
-    swapVolume24h: reader.readLongOrNull(offsets[1]),
-    swapVolume30d: reader.readLongOrNull(offsets[2]),
+    swapCount1y: reader.readDoubleOrNull(offsets[0]),
+    swapCount24h: reader.readLongOrNull(offsets[1]),
+    swapCount30d: reader.readDoubleOrNull(offsets[2]),
   );
   return object;
 }
@@ -3954,11 +4011,11 @@ P _nSSwapsDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 1:
       return (reader.readLongOrNull(offset)) as P;
     case 2:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -3966,60 +4023,138 @@ P _nSSwapsDeserializeProp<P>(
 
 extension NSSwapsQueryFilter
     on QueryBuilder<NSSwaps, NSSwaps, QFilterCondition> {
-  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapVolume1yIsNull() {
+  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapCount1yIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'swapVolume1y',
+        property: r'swapCount1y',
+      ));
+    });
+  }
+
+  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapCount1yIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'swapCount1y',
+      ));
+    });
+  }
+
+  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapCount1yEqualTo(
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'swapCount1y',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapCount1yGreaterThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'swapCount1y',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapCount1yLessThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'swapCount1y',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapCount1yBetween(
+    double? lower,
+    double? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'swapCount1y',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapCount24hIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'swapCount24h',
       ));
     });
   }
 
   QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition>
-      swapVolume1yIsNotNull() {
+      swapCount24hIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'swapVolume1y',
+        property: r'swapCount24h',
       ));
     });
   }
 
-  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapVolume1yEqualTo(
+  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapCount24hEqualTo(
       int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'swapVolume1y',
+        property: r'swapCount24h',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapVolume1yGreaterThan(
+  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapCount24hGreaterThan(
     int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'swapVolume1y',
+        property: r'swapCount24h',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapVolume1yLessThan(
+  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapCount24hLessThan(
     int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'swapVolume1y',
+        property: r'swapCount24h',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapVolume1yBetween(
+  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapCount24hBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -4027,7 +4162,7 @@ extension NSSwapsQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'swapVolume1y',
+        property: r'swapCount24h',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -4036,144 +4171,81 @@ extension NSSwapsQueryFilter
     });
   }
 
-  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapVolume24hIsNull() {
+  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapCount30dIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'swapVolume24h',
+        property: r'swapCount30d',
       ));
     });
   }
 
   QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition>
-      swapVolume24hIsNotNull() {
+      swapCount30dIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'swapVolume24h',
+        property: r'swapCount30d',
       ));
     });
   }
 
-  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapVolume24hEqualTo(
-      int? value) {
+  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapCount30dEqualTo(
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'swapVolume24h',
+        property: r'swapCount30d',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
-  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition>
-      swapVolume24hGreaterThan(
-    int? value, {
+  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapCount30dGreaterThan(
+    double? value, {
     bool include = false,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'swapVolume24h',
+        property: r'swapCount30d',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
-  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapVolume24hLessThan(
-    int? value, {
+  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapCount30dLessThan(
+    double? value, {
     bool include = false,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'swapVolume24h',
+        property: r'swapCount30d',
         value: value,
+        epsilon: epsilon,
       ));
     });
   }
 
-  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapVolume24hBetween(
-    int? lower,
-    int? upper, {
+  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapCount30dBetween(
+    double? lower,
+    double? upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'swapVolume24h',
+        property: r'swapCount30d',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapVolume30dIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'swapVolume30d',
-      ));
-    });
-  }
-
-  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition>
-      swapVolume30dIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'swapVolume30d',
-      ));
-    });
-  }
-
-  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapVolume30dEqualTo(
-      int? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'swapVolume30d',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition>
-      swapVolume30dGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'swapVolume30d',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapVolume30dLessThan(
-    int? value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'swapVolume30d',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapVolume30dBetween(
-    int? lower,
-    int? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'swapVolume30d',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
+        epsilon: epsilon,
       ));
     });
   }
@@ -4275,8 +4347,8 @@ Map<String, dynamic> _$NSNetworkToJson(NSNetwork instance) {
 
 NSPegIn _$NSPegInFromJson(Map json) => NSPegIn(
       pegInVolume24h: json['pegInVolume24h'] as int?,
-      pegInVolume30d: json['pegInVolume30d'] as int?,
-      pegInVolume1y: json['pegInVolume1y'] as int?,
+      pegInVolume30d: (json['pegInVolume30d'] as num?)?.toDouble(),
+      pegInVolume1y: (json['pegInVolume1y'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$NSPegInToJson(NSPegIn instance) {
@@ -4296,8 +4368,8 @@ Map<String, dynamic> _$NSPegInToJson(NSPegIn instance) {
 
 NSPegOut _$NSPegOutFromJson(Map json) => NSPegOut(
       pegOutVolume24h: json['pegOutVolume24h'] as int?,
-      pegOutVolume30d: json['pegOutVolume30d'] as int?,
-      pegOutVolume1y: json['pegOutVolume1y'] as int?,
+      pegOutVolume30d: (json['pegOutVolume30d'] as num?)?.toDouble(),
+      pegOutVolume1y: (json['pegOutVolume1y'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$NSPegOutToJson(NSPegOut instance) {
@@ -4317,8 +4389,8 @@ Map<String, dynamic> _$NSPegOutToJson(NSPegOut instance) {
 
 NSTransactions _$NSTransactionsFromJson(Map json) => NSTransactions(
       txCount24h: json['txCount24h'] as int?,
-      txCount30d: json['txCount30d'] as int?,
-      txCount1y: json['txCount1y'] as int?,
+      txCount30d: (json['txCount30d'] as num?)?.toDouble(),
+      txCount1y: (json['txCount1y'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$NSTransactionsToJson(NSTransactions instance) {
@@ -4337,9 +4409,9 @@ Map<String, dynamic> _$NSTransactionsToJson(NSTransactions instance) {
 }
 
 NSSwaps _$NSSwapsFromJson(Map json) => NSSwaps(
-      swapVolume24h: json['swapVolume24h'] as int?,
-      swapVolume30d: json['swapVolume30d'] as int?,
-      swapVolume1y: json['swapVolume1y'] as int?,
+      swapCount24h: json['swapCount24h'] as int?,
+      swapCount30d: (json['swapCount30d'] as num?)?.toDouble(),
+      swapCount1y: (json['swapCount1y'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$NSSwapsToJson(NSSwaps instance) {
@@ -4351,9 +4423,9 @@ Map<String, dynamic> _$NSSwapsToJson(NSSwaps instance) {
     }
   }
 
-  writeNotNull('swapVolume24h', instance.swapVolume24h);
-  writeNotNull('swapVolume30d', instance.swapVolume30d);
-  writeNotNull('swapVolume1y', instance.swapVolume1y);
+  writeNotNull('swapCount24h', instance.swapCount24h);
+  writeNotNull('swapCount30d', instance.swapCount30d);
+  writeNotNull('swapCount1y', instance.swapCount1y);
   return val;
 }
 

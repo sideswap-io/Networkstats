@@ -12,11 +12,10 @@ import 'package:network_stats/models/network_stats.dart';
 import 'package:network_stats/utils/configuration.dart';
 import 'package:network_stats/utils/custom_logger.dart';
 
-const int maxBlocks = 525600;
-
 class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
   BlockApi(super.isar);
 
+  @override
   Future<void> scrape() async {
     final startBlockResult = await _getStartBlockHeight();
 
@@ -191,7 +190,7 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
         // peg in
         if (vin.isPegIn ?? false) {
           logger.i(
-              'PegIn found in $vinCounter vin. Tx ${transaction.txid} in block ${block.height}');
+              'PegIn found, vin index $vinCounter. Tx ${transaction.txid} in block ${block.height}');
           pegInCount = pegInCount + 1;
           txIsPegIn = true;
         }
@@ -227,7 +226,7 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
 
         if (vout.pegout != null && vout.value != null) {
           logger.i(
-              'PegOut found in $voutCounter vout. Tx ${transaction.txid} in block ${block.height}');
+              'PegOut found, vout index $voutCounter. Tx ${transaction.txid} in block ${block.height}');
           pegOutCount = pegOutCount + 1;
           pegOutVolume = pegOutVolume + vout.value!;
         }
@@ -399,7 +398,7 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
         await _getDbBlockHeight(apiBlockHeight: currentBlockHeight);
     final dbBlockHeight = dbBlockHeightResult.match((l) {
       logger.e(l);
-      return currentBlockHeight - maxBlocks;
+      return currentBlockHeight - Configuration.maxBlocks;
     }, (r) => r);
 
     return Right(dbBlockHeight);

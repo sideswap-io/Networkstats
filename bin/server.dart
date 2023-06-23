@@ -31,6 +31,9 @@ void main(List<String> args) async {
   Stream<void> networkStatesChanged =
       isar.networkStats.watchObject(networkStats.id);
   networkStatesChanged.listen((_) async {
+    final networkStats =
+        await isar.networkStats.where().findFirst() ?? NetworkStats();
+
     container.read(networkStatsProvider.notifier).state = networkStats;
 
     logger.i('NetworkStates changed: ${networkStats.toJson()}');

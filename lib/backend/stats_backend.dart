@@ -5,6 +5,7 @@ import 'package:isolator/isolator.dart';
 import 'package:neat_periodic_task/neat_periodic_task.dart';
 import 'package:network_stats/backend/block_api.dart';
 import 'package:network_stats/backend/lbtc_issuance.dart';
+import 'package:network_stats/backend/stats_collector.dart';
 import 'package:network_stats/event.dart';
 import 'package:network_stats/models/network_stats.dart';
 import 'package:network_stats/utils/custom_logger.dart';
@@ -38,7 +39,6 @@ class StatsBackend extends Backend {
     logger.i('Running backend service');
 
     final blockApi = BlockApi(isar);
-
     final blockScheduler = NeatPeriodicTaskScheduler(
       interval: Duration(seconds: 3),
       name: 'block-api',
@@ -73,11 +73,24 @@ class StatsBackend extends Backend {
     );
     lbtcIssuanceScheduler.start();
 
+    final statsCollector = StatsCollector(isar);
+    final statsScheduler = NeatPeriodicTaskScheduler(
+      interval: Duration(minutes: 1),
+      name: 'stats-scheduler',
+      timeout: Duration(minutes: 1),
+      task: () async {
+        await statsCollector.run();
+      },
+      minCycle: Duration(milliseconds: 150),
+    );
+    statsScheduler.start();
+
     ProcessSignal.sigint.watch().listen((event) async {
       logger.i("Exiting backend service.");
-      await blockScheduler.stop();
-      await missingBlockScheduler.stop();
-      await lbtcIssuanceScheduler.stop();
+      // await blockScheduler.stop();
+      // await missingBlockScheduler.stop();
+      // await lbtcIssuanceScheduler.stop();
+      await statsScheduler.stop();
       await isar.close();
       logger.i("Backend service done.");
     });

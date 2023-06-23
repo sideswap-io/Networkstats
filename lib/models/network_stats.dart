@@ -85,8 +85,8 @@ class NSNetwork {
 @Embedded()
 class NSPegIn {
   int? pegInVolume24h;
-  int? pegInVolume30d;
-  int? pegInVolume1y;
+  double? pegInVolume30d;
+  double? pegInVolume1y;
 
   NSPegIn({
     this.pegInVolume24h,
@@ -108,8 +108,8 @@ class NSPegIn {
 @Embedded()
 class NSPegOut {
   int? pegOutVolume24h;
-  int? pegOutVolume30d;
-  int? pegOutVolume1y;
+  double? pegOutVolume30d;
+  double? pegOutVolume1y;
 
   NSPegOut({
     this.pegOutVolume24h,
@@ -131,8 +131,8 @@ class NSPegOut {
 @Embedded()
 class NSTransactions {
   int? txCount24h;
-  int? txCount30d;
-  int? txCount1y;
+  double? txCount30d;
+  double? txCount1y;
 
   NSTransactions({
     this.txCount24h,
@@ -153,14 +153,14 @@ class NSTransactions {
 @JsonSerializable()
 @Embedded()
 class NSSwaps {
-  int? swapVolume24h;
-  int? swapVolume30d;
-  int? swapVolume1y;
+  int? swapCount24h;
+  double? swapCount30d;
+  double? swapCount1y;
 
   NSSwaps({
-    this.swapVolume24h,
-    this.swapVolume30d,
-    this.swapVolume1y,
+    this.swapCount24h,
+    this.swapCount30d,
+    this.swapCount1y,
   });
 
   factory NSSwaps.fromJson(Map<String, dynamic> json) =>
@@ -170,7 +170,7 @@ class NSSwaps {
 
   @override
   String toString() =>
-      'NSSwaps(swapVolume24h: $swapVolume24h, swapVolume30d: $swapVolume30d, swapVolume1y: $swapVolume1y)';
+      'NSSwaps(swapVolume24h: $swapCount24h, swapVolume30d: $swapCount30d, swapVolume1y: $swapCount1y)';
 }
 
 @JsonSerializable()
