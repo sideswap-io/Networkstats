@@ -20,16 +20,19 @@ class StatsCollector extends EsploraApiInterface
     await _updateCurrentBlockHeight();
 
     if (totalBlocks >= Configuration.dayBlocks) {
+      // ~0.2 second
       await _make24hStats();
       logger.i('24h stats generated');
     }
 
     if (totalBlocks >= Configuration.monthBlocks) {
+      // ~6 seconds
       await _make30dStats();
       logger.i('30d stats generated');
     }
 
     if (totalBlocks >= Configuration.yearBlocks) {
+      // ~70 seconds
       await _make1yStats();
       logger.i('1y stats generated');
     }

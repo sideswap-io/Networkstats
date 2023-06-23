@@ -285,7 +285,7 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
         return Left(Exception(response.reasonPhrase));
       }
     } catch (e, stackTrace) {
-      logger.i('Stay calm, missing block will be fetched later');
+      logger.e('Stay calm, missing block will be fetched later');
       logger.e(e);
       logger.e(stackTrace);
       return Left(Exception(e));

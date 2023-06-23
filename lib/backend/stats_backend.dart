@@ -73,11 +73,12 @@ class StatsBackend extends Backend {
     );
     lbtcIssuanceScheduler.start();
 
+    // TODO: 24h collector per minute, 30 and 365 per day
     final statsCollector = StatsCollector(isar);
     final statsScheduler = NeatPeriodicTaskScheduler(
       interval: Duration(minutes: 1),
       name: 'stats-scheduler',
-      timeout: Duration(minutes: 1),
+      timeout: Duration(minutes: 5),
       task: () async {
         await statsCollector.run();
       },
