@@ -258,12 +258,12 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
     txList.addAll(bsTransactionList?.transactions ?? []);
 
     try {
-      logger.d(txList.length);
       txList.removeWhere((element) =>
           element.vin?.any((element) => element.isCoinbase == true) == true);
-      logger.d(txList.length);
     } catch (e) {
       logger.e(e);
+      return Left(Exception(
+          'Unable to remove coinbase tx from txs in block ${block.height}'));
     }
 
     final txCount = txList.length;

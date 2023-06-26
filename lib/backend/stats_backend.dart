@@ -124,8 +124,8 @@ class StatsBackend extends Backend {
     final assetsRegistry = AssetRegistry(isar);
     final assetsRegistryScheduler = NeatPeriodicTaskScheduler(
       name: 'assets-registry',
-      interval: Duration(minutes: 10),
-      timeout: Duration(minutes: 1),
+      interval: Duration(hours: 24),
+      timeout: Duration(minutes: 5),
       task: () async {
         await assetsRegistry.scrape();
       },

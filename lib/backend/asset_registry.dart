@@ -13,6 +13,7 @@ class AssetRegistry extends EsploraApiInterface
   AssetRegistry(super.isar);
 
   Future<void> scrape() async {
+    logger.i('Refreshing assets registry');
     final client = RetryClient(http.Client(), whenError: whenError);
 
     try {
