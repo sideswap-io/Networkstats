@@ -2356,19 +2356,19 @@ const NSLBTCIssuanceSchema = Schema(
   name: r'NSLBTCIssuance',
   id: 3937575867217319580,
   properties: {
-    r'burnedAmount': PropertySchema(
-      id: 0,
-      name: r'burnedAmount',
-      type: IsarType.long,
-    ),
     r'circulatingAmount': PropertySchema(
-      id: 1,
+      id: 0,
       name: r'circulatingAmount',
       type: IsarType.long,
     ),
     r'issuedAmount': PropertySchema(
-      id: 2,
+      id: 1,
       name: r'issuedAmount',
+      type: IsarType.long,
+    ),
+    r'pegoutBurnAmount': PropertySchema(
+      id: 2,
+      name: r'pegoutBurnAmount',
       type: IsarType.long,
     )
   },
@@ -2393,9 +2393,9 @@ void _nSLBTCIssuanceSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeLong(offsets[0], object.burnedAmount);
-  writer.writeLong(offsets[1], object.circulatingAmount);
-  writer.writeLong(offsets[2], object.issuedAmount);
+  writer.writeLong(offsets[0], object.circulatingAmount);
+  writer.writeLong(offsets[1], object.issuedAmount);
+  writer.writeLong(offsets[2], object.pegoutBurnAmount);
 }
 
 NSLBTCIssuance _nSLBTCIssuanceDeserialize(
@@ -2405,9 +2405,9 @@ NSLBTCIssuance _nSLBTCIssuanceDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = NSLBTCIssuance(
-    burnedAmount: reader.readLongOrNull(offsets[0]),
-    circulatingAmount: reader.readLongOrNull(offsets[1]),
-    issuedAmount: reader.readLongOrNull(offsets[2]),
+    circulatingAmount: reader.readLongOrNull(offsets[0]),
+    issuedAmount: reader.readLongOrNull(offsets[1]),
+    pegoutBurnAmount: reader.readLongOrNull(offsets[2]),
   );
   return object;
 }
@@ -2432,80 +2432,6 @@ P _nSLBTCIssuanceDeserializeProp<P>(
 
 extension NSLBTCIssuanceQueryFilter
     on QueryBuilder<NSLBTCIssuance, NSLBTCIssuance, QFilterCondition> {
-  QueryBuilder<NSLBTCIssuance, NSLBTCIssuance, QAfterFilterCondition>
-      burnedAmountIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'burnedAmount',
-      ));
-    });
-  }
-
-  QueryBuilder<NSLBTCIssuance, NSLBTCIssuance, QAfterFilterCondition>
-      burnedAmountIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'burnedAmount',
-      ));
-    });
-  }
-
-  QueryBuilder<NSLBTCIssuance, NSLBTCIssuance, QAfterFilterCondition>
-      burnedAmountEqualTo(int? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'burnedAmount',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<NSLBTCIssuance, NSLBTCIssuance, QAfterFilterCondition>
-      burnedAmountGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'burnedAmount',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<NSLBTCIssuance, NSLBTCIssuance, QAfterFilterCondition>
-      burnedAmountLessThan(
-    int? value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'burnedAmount',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<NSLBTCIssuance, NSLBTCIssuance, QAfterFilterCondition>
-      burnedAmountBetween(
-    int? lower,
-    int? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'burnedAmount',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
   QueryBuilder<NSLBTCIssuance, NSLBTCIssuance, QAfterFilterCondition>
       circulatingAmountIsNull() {
     return QueryBuilder.apply(this, (query) {
@@ -2646,6 +2572,80 @@ extension NSLBTCIssuanceQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'issuedAmount',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<NSLBTCIssuance, NSLBTCIssuance, QAfterFilterCondition>
+      pegoutBurnAmountIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'pegoutBurnAmount',
+      ));
+    });
+  }
+
+  QueryBuilder<NSLBTCIssuance, NSLBTCIssuance, QAfterFilterCondition>
+      pegoutBurnAmountIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'pegoutBurnAmount',
+      ));
+    });
+  }
+
+  QueryBuilder<NSLBTCIssuance, NSLBTCIssuance, QAfterFilterCondition>
+      pegoutBurnAmountEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'pegoutBurnAmount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSLBTCIssuance, NSLBTCIssuance, QAfterFilterCondition>
+      pegoutBurnAmountGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'pegoutBurnAmount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSLBTCIssuance, NSLBTCIssuance, QAfterFilterCondition>
+      pegoutBurnAmountLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'pegoutBurnAmount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSLBTCIssuance, NSLBTCIssuance, QAfterFilterCondition>
+      pegoutBurnAmountBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'pegoutBurnAmount',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -2973,20 +2973,35 @@ const NSPegInSchema = Schema(
   name: r'NSPegIn',
   id: 8674473010269496717,
   properties: {
-    r'pegInVolume1y': PropertySchema(
+    r'pegInCount1y': PropertySchema(
       id: 0,
+      name: r'pegInCount1y',
+      type: IsarType.long,
+    ),
+    r'pegInCount24h': PropertySchema(
+      id: 1,
+      name: r'pegInCount24h',
+      type: IsarType.long,
+    ),
+    r'pegInCount30d': PropertySchema(
+      id: 2,
+      name: r'pegInCount30d',
+      type: IsarType.long,
+    ),
+    r'pegInVolume1y': PropertySchema(
+      id: 3,
       name: r'pegInVolume1y',
-      type: IsarType.double,
+      type: IsarType.long,
     ),
     r'pegInVolume24h': PropertySchema(
-      id: 1,
+      id: 4,
       name: r'pegInVolume24h',
       type: IsarType.long,
     ),
     r'pegInVolume30d': PropertySchema(
-      id: 2,
+      id: 5,
       name: r'pegInVolume30d',
-      type: IsarType.double,
+      type: IsarType.long,
     )
   },
   estimateSize: _nSPegInEstimateSize,
@@ -3010,9 +3025,12 @@ void _nSPegInSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDouble(offsets[0], object.pegInVolume1y);
-  writer.writeLong(offsets[1], object.pegInVolume24h);
-  writer.writeDouble(offsets[2], object.pegInVolume30d);
+  writer.writeLong(offsets[0], object.pegInCount1y);
+  writer.writeLong(offsets[1], object.pegInCount24h);
+  writer.writeLong(offsets[2], object.pegInCount30d);
+  writer.writeLong(offsets[3], object.pegInVolume1y);
+  writer.writeLong(offsets[4], object.pegInVolume24h);
+  writer.writeLong(offsets[5], object.pegInVolume30d);
 }
 
 NSPegIn _nSPegInDeserialize(
@@ -3022,9 +3040,12 @@ NSPegIn _nSPegInDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = NSPegIn(
-    pegInVolume1y: reader.readDoubleOrNull(offsets[0]),
-    pegInVolume24h: reader.readLongOrNull(offsets[1]),
-    pegInVolume30d: reader.readDoubleOrNull(offsets[2]),
+    pegInCount1y: reader.readLongOrNull(offsets[0]),
+    pegInCount24h: reader.readLongOrNull(offsets[1]),
+    pegInCount30d: reader.readLongOrNull(offsets[2]),
+    pegInVolume1y: reader.readLongOrNull(offsets[3]),
+    pegInVolume24h: reader.readLongOrNull(offsets[4]),
+    pegInVolume30d: reader.readLongOrNull(offsets[5]),
   );
   return object;
 }
@@ -3037,11 +3058,17 @@ P _nSPegInDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 1:
       return (reader.readLongOrNull(offset)) as P;
     case 2:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
+    case 3:
+      return (reader.readLongOrNull(offset)) as P;
+    case 4:
+      return (reader.readLongOrNull(offset)) as P;
+    case 5:
+      return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -3049,6 +3076,218 @@ P _nSPegInDeserializeProp<P>(
 
 extension NSPegInQueryFilter
     on QueryBuilder<NSPegIn, NSPegIn, QFilterCondition> {
+  QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInCount1yIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'pegInCount1y',
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition>
+      pegInCount1yIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'pegInCount1y',
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInCount1yEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'pegInCount1y',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInCount1yGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'pegInCount1y',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInCount1yLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'pegInCount1y',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInCount1yBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'pegInCount1y',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInCount24hIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'pegInCount24h',
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition>
+      pegInCount24hIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'pegInCount24h',
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInCount24hEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'pegInCount24h',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition>
+      pegInCount24hGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'pegInCount24h',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInCount24hLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'pegInCount24h',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInCount24hBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'pegInCount24h',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInCount30dIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'pegInCount30d',
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition>
+      pegInCount30dIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'pegInCount30d',
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInCount30dEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'pegInCount30d',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition>
+      pegInCount30dGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'pegInCount30d',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInCount30dLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'pegInCount30d',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInCount30dBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'pegInCount30d',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInVolume1yIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -3067,55 +3306,47 @@ extension NSPegInQueryFilter
   }
 
   QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInVolume1yEqualTo(
-    double? value, {
-    double epsilon = Query.epsilon,
-  }) {
+      int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'pegInVolume1y',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition>
       pegInVolume1yGreaterThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'pegInVolume1y',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInVolume1yLessThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'pegInVolume1y',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInVolume1yBetween(
-    double? lower,
-    double? upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -3124,7 +3355,6 @@ extension NSPegInQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        epsilon: epsilon,
       ));
     });
   }
@@ -3218,55 +3448,47 @@ extension NSPegInQueryFilter
   }
 
   QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInVolume30dEqualTo(
-    double? value, {
-    double epsilon = Query.epsilon,
-  }) {
+      int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'pegInVolume30d',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition>
       pegInVolume30dGreaterThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'pegInVolume30d',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInVolume30dLessThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'pegInVolume30d',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSPegIn, NSPegIn, QAfterFilterCondition> pegInVolume30dBetween(
-    double? lower,
-    double? upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -3275,7 +3497,6 @@ extension NSPegInQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        epsilon: epsilon,
       ));
     });
   }
@@ -3291,20 +3512,35 @@ const NSPegOutSchema = Schema(
   name: r'NSPegOut',
   id: 4900177165961359406,
   properties: {
-    r'pegOutVolume1y': PropertySchema(
+    r'pegOutCount1y': PropertySchema(
       id: 0,
+      name: r'pegOutCount1y',
+      type: IsarType.long,
+    ),
+    r'pegOutCount24h': PropertySchema(
+      id: 1,
+      name: r'pegOutCount24h',
+      type: IsarType.long,
+    ),
+    r'pegOutCount30d': PropertySchema(
+      id: 2,
+      name: r'pegOutCount30d',
+      type: IsarType.long,
+    ),
+    r'pegOutVolume1y': PropertySchema(
+      id: 3,
       name: r'pegOutVolume1y',
-      type: IsarType.double,
+      type: IsarType.long,
     ),
     r'pegOutVolume24h': PropertySchema(
-      id: 1,
+      id: 4,
       name: r'pegOutVolume24h',
       type: IsarType.long,
     ),
     r'pegOutVolume30d': PropertySchema(
-      id: 2,
+      id: 5,
       name: r'pegOutVolume30d',
-      type: IsarType.double,
+      type: IsarType.long,
     )
   },
   estimateSize: _nSPegOutEstimateSize,
@@ -3328,9 +3564,12 @@ void _nSPegOutSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDouble(offsets[0], object.pegOutVolume1y);
-  writer.writeLong(offsets[1], object.pegOutVolume24h);
-  writer.writeDouble(offsets[2], object.pegOutVolume30d);
+  writer.writeLong(offsets[0], object.pegOutCount1y);
+  writer.writeLong(offsets[1], object.pegOutCount24h);
+  writer.writeLong(offsets[2], object.pegOutCount30d);
+  writer.writeLong(offsets[3], object.pegOutVolume1y);
+  writer.writeLong(offsets[4], object.pegOutVolume24h);
+  writer.writeLong(offsets[5], object.pegOutVolume30d);
 }
 
 NSPegOut _nSPegOutDeserialize(
@@ -3340,9 +3579,12 @@ NSPegOut _nSPegOutDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = NSPegOut(
-    pegOutVolume1y: reader.readDoubleOrNull(offsets[0]),
-    pegOutVolume24h: reader.readLongOrNull(offsets[1]),
-    pegOutVolume30d: reader.readDoubleOrNull(offsets[2]),
+    pegOutCount1y: reader.readLongOrNull(offsets[0]),
+    pegOutCount24h: reader.readLongOrNull(offsets[1]),
+    pegOutCount30d: reader.readLongOrNull(offsets[2]),
+    pegOutVolume1y: reader.readLongOrNull(offsets[3]),
+    pegOutVolume24h: reader.readLongOrNull(offsets[4]),
+    pegOutVolume30d: reader.readLongOrNull(offsets[5]),
   );
   return object;
 }
@@ -3355,11 +3597,17 @@ P _nSPegOutDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 1:
       return (reader.readLongOrNull(offset)) as P;
     case 2:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
+    case 3:
+      return (reader.readLongOrNull(offset)) as P;
+    case 4:
+      return (reader.readLongOrNull(offset)) as P;
+    case 5:
+      return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -3367,6 +3615,224 @@ P _nSPegOutDeserializeProp<P>(
 
 extension NSPegOutQueryFilter
     on QueryBuilder<NSPegOut, NSPegOut, QFilterCondition> {
+  QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition>
+      pegOutCount1yIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'pegOutCount1y',
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition>
+      pegOutCount1yIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'pegOutCount1y',
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition> pegOutCount1yEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'pegOutCount1y',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition>
+      pegOutCount1yGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'pegOutCount1y',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition> pegOutCount1yLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'pegOutCount1y',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition> pegOutCount1yBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'pegOutCount1y',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition>
+      pegOutCount24hIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'pegOutCount24h',
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition>
+      pegOutCount24hIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'pegOutCount24h',
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition> pegOutCount24hEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'pegOutCount24h',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition>
+      pegOutCount24hGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'pegOutCount24h',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition>
+      pegOutCount24hLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'pegOutCount24h',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition> pegOutCount24hBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'pegOutCount24h',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition>
+      pegOutCount30dIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'pegOutCount30d',
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition>
+      pegOutCount30dIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'pegOutCount30d',
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition> pegOutCount30dEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'pegOutCount30d',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition>
+      pegOutCount30dGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'pegOutCount30d',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition>
+      pegOutCount30dLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'pegOutCount30d',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition> pegOutCount30dBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'pegOutCount30d',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition>
       pegOutVolume1yIsNull() {
     return QueryBuilder.apply(this, (query) {
@@ -3386,56 +3852,48 @@ extension NSPegOutQueryFilter
   }
 
   QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition> pegOutVolume1yEqualTo(
-    double? value, {
-    double epsilon = Query.epsilon,
-  }) {
+      int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'pegOutVolume1y',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition>
       pegOutVolume1yGreaterThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'pegOutVolume1y',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition>
       pegOutVolume1yLessThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'pegOutVolume1y',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition> pegOutVolume1yBetween(
-    double? lower,
-    double? upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -3444,7 +3902,6 @@ extension NSPegOutQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        epsilon: epsilon,
       ));
     });
   }
@@ -3542,58 +3999,49 @@ extension NSPegOutQueryFilter
   }
 
   QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition>
-      pegOutVolume30dEqualTo(
-    double? value, {
-    double epsilon = Query.epsilon,
-  }) {
+      pegOutVolume30dEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'pegOutVolume30d',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition>
       pegOutVolume30dGreaterThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'pegOutVolume30d',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition>
       pegOutVolume30dLessThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'pegOutVolume30d',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSPegOut, NSPegOut, QAfterFilterCondition>
       pegOutVolume30dBetween(
-    double? lower,
-    double? upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -3602,7 +4050,6 @@ extension NSPegOutQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        epsilon: epsilon,
       ));
     });
   }
@@ -3621,7 +4068,7 @@ const NSTransactionsSchema = Schema(
     r'txCount1y': PropertySchema(
       id: 0,
       name: r'txCount1y',
-      type: IsarType.double,
+      type: IsarType.long,
     ),
     r'txCount24h': PropertySchema(
       id: 1,
@@ -3631,7 +4078,7 @@ const NSTransactionsSchema = Schema(
     r'txCount30d': PropertySchema(
       id: 2,
       name: r'txCount30d',
-      type: IsarType.double,
+      type: IsarType.long,
     )
   },
   estimateSize: _nSTransactionsEstimateSize,
@@ -3655,9 +4102,9 @@ void _nSTransactionsSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDouble(offsets[0], object.txCount1y);
+  writer.writeLong(offsets[0], object.txCount1y);
   writer.writeLong(offsets[1], object.txCount24h);
-  writer.writeDouble(offsets[2], object.txCount30d);
+  writer.writeLong(offsets[2], object.txCount30d);
 }
 
 NSTransactions _nSTransactionsDeserialize(
@@ -3667,9 +4114,9 @@ NSTransactions _nSTransactionsDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = NSTransactions(
-    txCount1y: reader.readDoubleOrNull(offsets[0]),
+    txCount1y: reader.readLongOrNull(offsets[0]),
     txCount24h: reader.readLongOrNull(offsets[1]),
-    txCount30d: reader.readDoubleOrNull(offsets[2]),
+    txCount30d: reader.readLongOrNull(offsets[2]),
   );
   return object;
 }
@@ -3682,11 +4129,11 @@ P _nSTransactionsDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 1:
       return (reader.readLongOrNull(offset)) as P;
     case 2:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -3713,58 +4160,49 @@ extension NSTransactionsQueryFilter
   }
 
   QueryBuilder<NSTransactions, NSTransactions, QAfterFilterCondition>
-      txCount1yEqualTo(
-    double? value, {
-    double epsilon = Query.epsilon,
-  }) {
+      txCount1yEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'txCount1y',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSTransactions, NSTransactions, QAfterFilterCondition>
       txCount1yGreaterThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'txCount1y',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSTransactions, NSTransactions, QAfterFilterCondition>
       txCount1yLessThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'txCount1y',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSTransactions, NSTransactions, QAfterFilterCondition>
       txCount1yBetween(
-    double? lower,
-    double? upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -3773,7 +4211,6 @@ extension NSTransactionsQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        epsilon: epsilon,
       ));
     });
   }
@@ -3871,58 +4308,49 @@ extension NSTransactionsQueryFilter
   }
 
   QueryBuilder<NSTransactions, NSTransactions, QAfterFilterCondition>
-      txCount30dEqualTo(
-    double? value, {
-    double epsilon = Query.epsilon,
-  }) {
+      txCount30dEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'txCount30d',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSTransactions, NSTransactions, QAfterFilterCondition>
       txCount30dGreaterThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'txCount30d',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSTransactions, NSTransactions, QAfterFilterCondition>
       txCount30dLessThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'txCount30d',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSTransactions, NSTransactions, QAfterFilterCondition>
       txCount30dBetween(
-    double? lower,
-    double? upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -3931,7 +4359,6 @@ extension NSTransactionsQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        epsilon: epsilon,
       ));
     });
   }
@@ -3950,7 +4377,7 @@ const NSSwapsSchema = Schema(
     r'swapCount1y': PropertySchema(
       id: 0,
       name: r'swapCount1y',
-      type: IsarType.double,
+      type: IsarType.long,
     ),
     r'swapCount24h': PropertySchema(
       id: 1,
@@ -3960,7 +4387,7 @@ const NSSwapsSchema = Schema(
     r'swapCount30d': PropertySchema(
       id: 2,
       name: r'swapCount30d',
-      type: IsarType.double,
+      type: IsarType.long,
     )
   },
   estimateSize: _nSSwapsEstimateSize,
@@ -3984,9 +4411,9 @@ void _nSSwapsSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDouble(offsets[0], object.swapCount1y);
+  writer.writeLong(offsets[0], object.swapCount1y);
   writer.writeLong(offsets[1], object.swapCount24h);
-  writer.writeDouble(offsets[2], object.swapCount30d);
+  writer.writeLong(offsets[2], object.swapCount30d);
 }
 
 NSSwaps _nSSwapsDeserialize(
@@ -3996,9 +4423,9 @@ NSSwaps _nSSwapsDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = NSSwaps(
-    swapCount1y: reader.readDoubleOrNull(offsets[0]),
+    swapCount1y: reader.readLongOrNull(offsets[0]),
     swapCount24h: reader.readLongOrNull(offsets[1]),
-    swapCount30d: reader.readDoubleOrNull(offsets[2]),
+    swapCount30d: reader.readLongOrNull(offsets[2]),
   );
   return object;
 }
@@ -4011,11 +4438,11 @@ P _nSSwapsDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 1:
       return (reader.readLongOrNull(offset)) as P;
     case 2:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -4040,54 +4467,46 @@ extension NSSwapsQueryFilter
   }
 
   QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapCount1yEqualTo(
-    double? value, {
-    double epsilon = Query.epsilon,
-  }) {
+      int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'swapCount1y',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapCount1yGreaterThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'swapCount1y',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapCount1yLessThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'swapCount1y',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapCount1yBetween(
-    double? lower,
-    double? upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -4096,7 +4515,6 @@ extension NSSwapsQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        epsilon: epsilon,
       ));
     });
   }
@@ -4189,54 +4607,46 @@ extension NSSwapsQueryFilter
   }
 
   QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapCount30dEqualTo(
-    double? value, {
-    double epsilon = Query.epsilon,
-  }) {
+      int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'swapCount30d',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapCount30dGreaterThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'swapCount30d',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapCount30dLessThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'swapCount30d',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<NSSwaps, NSSwaps, QAfterFilterCondition> swapCount30dBetween(
-    double? lower,
-    double? upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -4245,7 +4655,6 @@ extension NSSwapsQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        epsilon: epsilon,
       ));
     });
   }
@@ -4304,9 +4713,9 @@ Map<String, dynamic> _$NetworkStatsToJson(NetworkStats instance) {
 }
 
 NSLBTCIssuance _$NSLBTCIssuanceFromJson(Map json) => NSLBTCIssuance(
-      circulatingAmount: json['circulatingAmount'] as int?,
-      issuedAmount: json['issuedAmount'] as int?,
-      burnedAmount: json['burnedAmount'] as int?,
+      circulatingAmount: json['circulatingAmount'] as int? ?? 0,
+      issuedAmount: json['issuedAmount'] as int? ?? 0,
+      pegoutBurnAmount: json['pegoutBurnAmount'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$NSLBTCIssuanceToJson(NSLBTCIssuance instance) {
@@ -4320,14 +4729,14 @@ Map<String, dynamic> _$NSLBTCIssuanceToJson(NSLBTCIssuance instance) {
 
   writeNotNull('circulatingAmount', instance.circulatingAmount);
   writeNotNull('issuedAmount', instance.issuedAmount);
-  writeNotNull('burnedAmount', instance.burnedAmount);
+  writeNotNull('pegoutBurnAmount', instance.pegoutBurnAmount);
   return val;
 }
 
 NSNetwork _$NSNetworkFromJson(Map json) => NSNetwork(
-      currentBlockHeight: json['currentBlockHeight'] as int?,
-      issuedAssets: json['issuedAssets'] as int?,
-      issuedSecurities: json['issuedSecurities'] as int?,
+      currentBlockHeight: json['currentBlockHeight'] as int? ?? 0,
+      issuedAssets: json['issuedAssets'] as int? ?? 0,
+      issuedSecurities: json['issuedSecurities'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$NSNetworkToJson(NSNetwork instance) {
@@ -4346,9 +4755,12 @@ Map<String, dynamic> _$NSNetworkToJson(NSNetwork instance) {
 }
 
 NSPegIn _$NSPegInFromJson(Map json) => NSPegIn(
-      pegInVolume24h: json['pegInVolume24h'] as int?,
-      pegInVolume30d: (json['pegInVolume30d'] as num?)?.toDouble(),
-      pegInVolume1y: (json['pegInVolume1y'] as num?)?.toDouble(),
+      pegInVolume24h: json['pegInVolume24h'] as int? ?? 0,
+      pegInCount24h: json['pegInCount24h'] as int? ?? 0,
+      pegInVolume30d: json['pegInVolume30d'] as int? ?? 0,
+      pegInCount30d: json['pegInCount30d'] as int? ?? 0,
+      pegInVolume1y: json['pegInVolume1y'] as int? ?? 0,
+      pegInCount1y: json['pegInCount1y'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$NSPegInToJson(NSPegIn instance) {
@@ -4361,15 +4773,21 @@ Map<String, dynamic> _$NSPegInToJson(NSPegIn instance) {
   }
 
   writeNotNull('pegInVolume24h', instance.pegInVolume24h);
+  writeNotNull('pegInCount24h', instance.pegInCount24h);
   writeNotNull('pegInVolume30d', instance.pegInVolume30d);
+  writeNotNull('pegInCount30d', instance.pegInCount30d);
   writeNotNull('pegInVolume1y', instance.pegInVolume1y);
+  writeNotNull('pegInCount1y', instance.pegInCount1y);
   return val;
 }
 
 NSPegOut _$NSPegOutFromJson(Map json) => NSPegOut(
-      pegOutVolume24h: json['pegOutVolume24h'] as int?,
-      pegOutVolume30d: (json['pegOutVolume30d'] as num?)?.toDouble(),
-      pegOutVolume1y: (json['pegOutVolume1y'] as num?)?.toDouble(),
+      pegOutVolume24h: json['pegOutVolume24h'] as int? ?? 0,
+      pegOutCount24h: json['pegOutCount24h'] as int? ?? 0,
+      pegOutVolume30d: json['pegOutVolume30d'] as int? ?? 0,
+      pegOutCount30d: json['pegOutCount30d'] as int? ?? 0,
+      pegOutVolume1y: json['pegOutVolume1y'] as int? ?? 0,
+      pegOutCount1y: json['pegOutCount1y'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$NSPegOutToJson(NSPegOut instance) {
@@ -4382,15 +4800,18 @@ Map<String, dynamic> _$NSPegOutToJson(NSPegOut instance) {
   }
 
   writeNotNull('pegOutVolume24h', instance.pegOutVolume24h);
+  writeNotNull('pegOutCount24h', instance.pegOutCount24h);
   writeNotNull('pegOutVolume30d', instance.pegOutVolume30d);
+  writeNotNull('pegOutCount30d', instance.pegOutCount30d);
   writeNotNull('pegOutVolume1y', instance.pegOutVolume1y);
+  writeNotNull('pegOutCount1y', instance.pegOutCount1y);
   return val;
 }
 
 NSTransactions _$NSTransactionsFromJson(Map json) => NSTransactions(
-      txCount24h: json['txCount24h'] as int?,
-      txCount30d: (json['txCount30d'] as num?)?.toDouble(),
-      txCount1y: (json['txCount1y'] as num?)?.toDouble(),
+      txCount24h: json['txCount24h'] as int? ?? 0,
+      txCount30d: json['txCount30d'] as int? ?? 0,
+      txCount1y: json['txCount1y'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$NSTransactionsToJson(NSTransactions instance) {
@@ -4409,9 +4830,9 @@ Map<String, dynamic> _$NSTransactionsToJson(NSTransactions instance) {
 }
 
 NSSwaps _$NSSwapsFromJson(Map json) => NSSwaps(
-      swapCount24h: json['swapCount24h'] as int?,
-      swapCount30d: (json['swapCount30d'] as num?)?.toDouble(),
-      swapCount1y: (json['swapCount1y'] as num?)?.toDouble(),
+      swapCount24h: json['swapCount24h'] as int? ?? 0,
+      swapCount30d: json['swapCount30d'] as int? ?? 0,
+      swapCount1y: json['swapCount1y'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$NSSwapsToJson(NSSwaps instance) {

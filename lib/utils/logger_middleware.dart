@@ -64,11 +64,3 @@ String _errorMessage(DateTime requestTime, Uri requestedUri, String method,
 
   return '$msg\n$chain';
 }
-
-void _defaultLogger(String msg, bool isError) {
-  if (isError) {
-    print('[ERROR] $msg');
-  } else {
-    print(msg);
-  }
-}

@@ -1,33 +1,51 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:network_stats/models/blockstream_api.dart';
+import 'package:http/retry.dart';
+import 'package:isar/isar.dart';
+import 'package:network_stats/backend/explora_api_interface.dart';
+import 'package:network_stats/models/network_stats.dart';
 import 'package:network_stats/utils/configuration.dart';
 import 'package:network_stats/utils/custom_logger.dart';
 
-class AssetRegistry {
+class AssetRegistry extends EsploraApiInterface
+    implements BaseEsploraApiInterface {
+  AssetRegistry(super.isar);
+
   Future<void> scrape() async {
-    while (true) {
-      final queryParameters = {
-        'start_index': '0',
-        'limit': '1',
-      };
+    final client = RetryClient(http.Client(), whenError: whenError);
 
-      Uri uri = Uri.parse('${Configuration.liquid}/assets/registry');
-      uri = uri.replace(queryParameters: queryParameters);
+    try {
+      Uri uri = Uri.parse('https://assets.blockstream.info/');
 
-      final response = await http.get(uri);
-      logger.i(response.statusCode);
-      logger.i(response.headers);
+      final response = await client.get(uri);
+      final statusCode = response.statusCode;
 
-      try {
-        final json = jsonDecode(response.body);
-        final registry = BSRegistry.fromJson({'assets': json});
-        logger.i(registry);
-      } catch (e) {
-        logger.e(e);
+      if (statusCode >= 200 && statusCode < 300) {
+        final json = jsonDecode(response.body) as Map<String, dynamic>;
+        final assetsCount = json.keys.length;
+        logger.i('Found $assetsCount in registry');
+
+        await isar.writeTxn(() async {
+          final existingNetworkStats =
+              await isar.networkStats.where().findFirst();
+          if (existingNetworkStats == null) {
+            return;
+          }
+
+          existingNetworkStats.network?.issuedAssets = assetsCount;
+          // TODO: fix hardcoded securities
+          existingNetworkStats.network?.issuedSecurities =
+              Configuration.issuedSecurities;
+          await isar.networkStats.put(existingNetworkStats);
+        });
+      } else {
+        logger.e('Error code: $statusCode reason: ${response.reasonPhrase}');
       }
-      break;
+    } catch (e) {
+      logger.e(e);
+    } finally {
+      client.close();
     }
   }
 }

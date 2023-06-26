@@ -249,13 +249,24 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
     }, (r) => r);
 
     if (bsTransactionList?.transactions == null) {
-      // if empty transaction list
       logger.w('Tx is empty in block ${block.height}');
       return Left(Exception(
           'Unable to request transaction list for block ${block.height}'));
     }
 
-    final txCount = bsTransactionList!.transactions!.length;
+    final txList = <BSTransaction>[];
+    txList.addAll(bsTransactionList?.transactions ?? []);
+
+    try {
+      logger.d(txList.length);
+      txList.removeWhere((element) =>
+          element.vin?.any((element) => element.isCoinbase == true) == true);
+      logger.d(txList.length);
+    } catch (e) {
+      logger.e(e);
+    }
+
+    final txCount = txList.length;
     var pegInCount = 0;
     var pegInVolume = 0;
     var pegOutCount = 0;
@@ -263,7 +274,7 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
 
     var swapCount = 0;
 
-    for (var transaction in bsTransactionList.transactions!) {
+    for (var transaction in txList) {
       bool txIsPegIn = false;
       if (transaction.vin == null) {
         logger
@@ -319,7 +330,8 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
         voutCounter = voutCounter + 1;
       }
 
-      if (transaction.vin!.length >= 2 && transaction.vout!.length >= 4) {
+      // swaps
+      if (transaction.vin!.length >= 3 && transaction.vout!.length >= 4) {
         logger
             .i('Swap found in tx ${transaction.txid} in block ${block.height}');
         swapCount = swapCount + 1;
@@ -465,27 +477,6 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
     }
   }
 
-  Future<Either<Exception, int>> _getStartBlockHeight() async {
-    final currentBlockHeightResult = await _getApiBlockHeight();
-
-    final currentBlockHeight = currentBlockHeightResult.match((l) {
-      logger.e(l);
-    }, (r) => r);
-
-    if (currentBlockHeight == null) {
-      return Left(Exception('Unable to get start block'));
-    }
-
-    final dbBlockHeightResult =
-        await _getDbBlockHeight(apiBlockHeight: currentBlockHeight);
-    final dbBlockHeight = dbBlockHeightResult.match((l) {
-      logger.e(l);
-      return currentBlockHeight - Configuration.maxBlocks;
-    }, (r) => r);
-
-    return Right(dbBlockHeight);
-  }
-
   Future<Either<Exception, int>> _getApiBlockHeight() async {
     final client = RetryClient(http.Client(), whenError: whenError);
 
@@ -506,30 +497,6 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
     } on Exception catch (e) {
       return Left(e);
     }
-  }
-
-  Future<Either<Exception, int>> _getDbBlockHeight(
-      {required int apiBlockHeight}) async {
-    final blocksCount = await isar.nSBlocks.count();
-
-    if (blocksCount == 0) {
-      return Left(Exception('Blocks table is empty'));
-    }
-
-    // TODO:
-    // if blocksCount > maxBlocks
-    // delete old blocks
-
-    final highestBlockHeightResult = await _getHighestDbBlockHeight();
-    final highestBlockHeight = highestBlockHeightResult.match((l) {
-      logger.e(l);
-    }, (r) => r);
-
-    if (highestBlockHeight == null) {
-      return Left(Exception('Block height is empty'));
-    }
-
-    return Right(highestBlockHeight);
   }
 
   Future<Either<Exception, int>> _getHighestDbBlockHeight() async {

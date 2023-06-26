@@ -1,14 +1,47 @@
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:isar/isar.dart';
 import 'package:isolator/isolator.dart';
 import 'package:neat_periodic_task/neat_periodic_task.dart';
+import 'package:network_stats/backend/asset_registry.dart';
 import 'package:network_stats/backend/block_api.dart';
 import 'package:network_stats/backend/lbtc_issuance.dart';
 import 'package:network_stats/backend/stats_collector.dart';
 import 'package:network_stats/event.dart';
 import 'package:network_stats/models/network_stats.dart';
 import 'package:network_stats/utils/custom_logger.dart';
+
+class _StatusStore {
+  List<int>? _value;
+
+  NeatStatusProvider provider() => _StatusStoreNeatStatusProvider(this);
+}
+
+class _StatusStoreNeatStatusProvider implements NeatStatusProvider {
+  final _StatusStore _store;
+  List<int>? _lastRead;
+  _StatusStoreNeatStatusProvider(this._store);
+
+  @override
+  Future<List<int>?> get() async {
+    await Future.delayed(Duration(milliseconds: 1));
+    _lastRead = _store._value;
+    return _lastRead;
+  }
+
+  @override
+  Future<bool> set(List<int> status) async {
+    await Future.delayed(Duration(milliseconds: 1));
+    if (_store._value == null ||
+        ListEquality().equals(_lastRead, _store._value)) {
+      _store._value = status;
+      _lastRead = status;
+      return true;
+    }
+    return false;
+  }
+}
 
 class StatsBackend extends Backend {
   late final Isar isar;
@@ -37,12 +70,14 @@ class StatsBackend extends Backend {
 
   Future<void> _run(Isar isar) async {
     logger.i('Running backend service');
+    final statusStore = _StatusStore();
 
     final blockApi = BlockApi(isar);
     final blockScheduler = NeatPeriodicTaskScheduler(
       interval: Duration(minutes: 1),
       name: 'block-api',
       timeout: Duration(minutes: 1),
+      status: statusStore.provider(),
       task: () async {
         await blockApi.scrape();
       },
@@ -86,12 +121,25 @@ class StatsBackend extends Backend {
     );
     statsScheduler.start();
 
+    final assetsRegistry = AssetRegistry(isar);
+    final assetsRegistryScheduler = NeatPeriodicTaskScheduler(
+      name: 'assets-registry',
+      interval: Duration(minutes: 10),
+      timeout: Duration(minutes: 1),
+      task: () async {
+        await assetsRegistry.scrape();
+      },
+      minCycle: Duration(milliseconds: 150),
+    );
+    assetsRegistryScheduler.start();
+
     ProcessSignal.sigint.watch().listen((event) async {
       logger.i("Exiting backend service.");
       await blockScheduler.stop();
       await missingBlockScheduler.stop();
       await lbtcIssuanceScheduler.stop();
       await statsScheduler.stop();
+      await assetsRegistryScheduler.stop();
       await isar.close();
       logger.i("Backend service done.");
     });
