@@ -80,7 +80,7 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
           'Parsing ${blocksToParse.length} blocks took ${stopwatch.elapsed}');
     }
 
-    final totalBlocks = await isar.nSBlocks.count();
+    var totalBlocks = await isar.nSBlocks.count();
     if (totalBlocks > Configuration.maxBlocks) {
       final lowestBlockHeight = (apiBlockHeight - Configuration.maxBlocks);
       final blocksToRemove = await isar.nSBlocks
@@ -88,16 +88,16 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
           .blockHeightLessThan(lowestBlockHeight)
           .findAll();
 
-      logger.w(
-          'Total blocks: $totalBlocks. Amount to remove: ${blocksToRemove.length}');
+      logger.w('Total blocks: $totalBlocks');
 
       if (blocksToRemove.isNotEmpty) {
-        logger.i('Cleanup ${blocksToRemove.length} blocks from db');
         final idsToRemove = blocksToRemove.map((e) => e.id).toList();
         await isar.writeTxn(() async {
           final deletedCount = await isar.nSBlocks.deleteAll(idsToRemove);
-          logger.i('$deletedCount blocks has been removed from db');
+          logger.i('$deletedCount oldest blocks has been removed from db');
         });
+        totalBlocks = await isar.nSBlocks.count();
+        logger.i('New total blocks: $totalBlocks');
       }
     }
   }
@@ -214,19 +214,19 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
     }
 
     try {
-      final existingBlock = await isar.nSBlocks
-          .where()
-          .blockHeightEqualTo(block.height)
-          .findFirst();
-      if (existingBlock != null) {
-        if (!updateExisting) {
-          return false;
-        }
-        logger.i('Block ${existingBlock.blockHeight} found in db');
-        nsblock.id = existingBlock.id;
-      }
-
       await isar.writeTxn(() async {
+        final existingBlock = await isar.nSBlocks
+            .where()
+            .blockHeightEqualTo(block.height)
+            .findFirst();
+        if (existingBlock != null) {
+          if (!updateExisting) {
+            return false;
+          }
+          logger.i('Block ${existingBlock.blockHeight} found in db, updating');
+          nsblock.id = existingBlock.id;
+        }
+
         logger.i('${nsblock.blockHash} height: ${nsblock.blockHeight}');
         await isar.nSBlocks.put(nsblock);
       });
@@ -244,6 +244,7 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
       {required BSBlock block}) async {
     final transactionsResult = await _getBlockTransactions(block: block);
     final bsTransactionList = transactionsResult.match((l) {
+      logger.e('Stay calm, missing block will be fetched later');
       logger.e(l);
     }, (r) => r);
 
@@ -370,7 +371,6 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
         return Left(Exception(response.reasonPhrase));
       }
     } catch (e, stackTrace) {
-      logger.e('Stay calm, missing block will be fetched later');
       logger.e(e);
       logger.e(stackTrace);
       return Left(Exception(e));
