@@ -88,7 +88,7 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
           .blockHeightLessThan(lowestBlockHeight)
           .findAll();
 
-      logger.w('Total blocks: $totalBlocks');
+      logger.i('Total blocks: $totalBlocks');
 
       if (blocksToRemove.isNotEmpty) {
         final idsToRemove = blocksToRemove.map((e) => e.id).toList();
