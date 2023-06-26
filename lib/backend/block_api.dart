@@ -17,109 +17,192 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
 
   @override
   Future<void> scrape() async {
-    final startBlockResult = await _getStartBlockHeight();
-
-    var startBlockHeight = startBlockResult.match((l) {
+    final apiBlockHeightResult = await _getApiBlockHeight();
+    final apiBlockHeight = apiBlockHeightResult.match((l) {
       logger.e(l);
     }, (r) => r);
 
-    if (startBlockHeight == null) {
+    if (apiBlockHeight == null) {
       return;
     }
 
-    // TODO: remove
-    // startBlockHeight = 2399218;
+    while (true) {
+      final dbBlockHeightResult = await _getHighestDbBlockHeight();
+      final dbBlockHeight = dbBlockHeightResult.match((l) {
+        logger.e(l);
+        return apiBlockHeight - Configuration.maxBlocks;
+      }, (r) => r);
 
-    final blocksResult = await _getBlocks(startBlock: startBlockHeight);
+      if (dbBlockHeight == apiBlockHeight) {
+        break;
+      }
 
-    final blocks = blocksResult.match((l) {
-      logger.e(l);
-    }, (r) => r);
+      var startBlockHeight = 0;
+      final blockHeightDiff = apiBlockHeight - dbBlockHeight;
+      // api returns list of 10 blocks from blockheight-10 to blockheight
+      if (blockHeightDiff >= 10) {
+        startBlockHeight = dbBlockHeight + 10;
+      } else {
+        startBlockHeight = apiBlockHeight;
+      }
 
-    if (blocks == null || blocks.blocks == null) {
-      logger.w('Block height $startBlockHeight is empty!');
-      return;
+      final blocksResult = await _getBlocks(startBlockHeight: startBlockHeight);
+      final blocks = blocksResult.match((l) {
+        logger.e(l);
+      }, (r) => r);
+
+      if (blocks == null || blocks.blocks == null) {
+        logger.w('Block height $startBlockHeight is empty!');
+        break;
+      }
+
+      final blocksToParse = <BSBlock>[];
+      blocksToParse.addAll(blocks.blocks ?? []);
+
+      try {
+        blocksToParse.removeWhere((e) => e.height! <= dbBlockHeight);
+        if (blocksToParse.length == 0) {
+          break;
+        }
+      } catch (e) {
+        logger.e(e);
+      }
+
+      logger.i(
+          'Parsing ${blocksToParse.length} blocks started from $startBlockHeight');
+
+      final stopwatch = Stopwatch()..start();
+      for (var block in blocksToParse) {
+        await _parseAndUpdateSingleBlock(block: block);
+      }
+
+      logger.i(
+          'Parsing ${blocksToParse.length} blocks took ${stopwatch.elapsed}');
     }
 
-    logger.i(
-        'Parsing ${blocks.blocks?.length} blocks started from $startBlockHeight');
+    final totalBlocks = await isar.nSBlocks.count();
+    if (totalBlocks > Configuration.maxBlocks) {
+      final lowestBlockHeight = (apiBlockHeight - Configuration.maxBlocks);
+      final blocksToRemove = await isar.nSBlocks
+          .where()
+          .blockHeightLessThan(lowestBlockHeight)
+          .findAll();
 
-    final stopwatch = Stopwatch()..start();
-    for (var block in blocks.blocks!) {
-      await _parseAndUpdateSingleBlock(block: block);
+      logger.w(
+          'Total blocks: $totalBlocks. Amount to remove: ${blocksToRemove.length}');
+
+      if (blocksToRemove.isNotEmpty) {
+        logger.i('Cleanup ${blocksToRemove.length} blocks from db');
+        final idsToRemove = blocksToRemove.map((e) => e.id).toList();
+        await isar.writeTxn(() async {
+          final deletedCount = await isar.nSBlocks.deleteAll(idsToRemove);
+          logger.i('$deletedCount blocks has been removed from db');
+        });
+      }
     }
-
-    logger
-        .i('Parsing ${blocks.blocks!.length} blocks took ${stopwatch.elapsed}');
   }
 
   Future<void> scrapeMissingBlocks() async {
-    logger.i('Checking db for missing blocks');
+    logger.i('Checking db for missing blocks...');
+
+    final lowestResult = await _getLowestDbBlockHeight();
+    final lowest = lowestResult.match((l) {
+      logger.e(l);
+    }, (r) => r);
+
+    final highestResult = await _getHighestDbBlockHeight();
+    final highest = highestResult.match((l) {
+      logger.e(l);
+    }, (r) => r);
+
+    if (highest == null || lowest == null) {
+      return;
+    }
+
+    var missingCounter = 0;
+    var lowestHeight = lowest;
+
     final savedBlocks = await isar.nSBlocks.where(sort: Sort.desc).findAll();
+    if (savedBlocks.isEmpty) {
+      return;
+    }
 
-    logger.i('Read ${savedBlocks.length} blocks from db');
+    final blocks = savedBlocks.map((e) => e.blockHeight!).toList()
+      ..sort((a, b) => a.compareTo(b));
 
-    int missingCounter = 0;
+    final stopwatch = Stopwatch()..start();
+    var start = DateTime.now();
+    var analyzed = 0;
+    final totalBlocksCount = blocks.length;
+    logger.i('Total blocks in db: $totalBlocksCount');
 
-    int? prevBlockHeight;
-    for (var block in savedBlocks) {
-      if (prevBlockHeight == null) {
-        prevBlockHeight = block.blockHeight;
+    while (lowestHeight < highest) {
+      analyzed++;
+
+      var now = DateTime.now();
+      final diff = now.difference(start);
+      if (diff.inSeconds > 10) {
+        start = now = DateTime.now();
+        final analyzedBlocks = analyzed / 10;
+        blocks.removeWhere((e) => e < lowestHeight);
+        logger.i('Blocks left: ${blocks.length}. Analyzed $analyzedBlocks/s');
+        analyzed = 0;
+      }
+
+      final existingBlock = blocks.any((e) => e == lowestHeight);
+
+      if (existingBlock) {
+        lowestHeight++;
         continue;
       }
 
-      final currentBlockHeight = block.blockHeight;
-      if (currentBlockHeight == null) {
-        logger.w('Current block height is empty');
-        return;
-      }
+      await _updateMissingBlock(blockHeight: lowestHeight);
 
-      final missingBlockHeight = prevBlockHeight + 1;
-
-      if (currentBlockHeight != missingBlockHeight) {
-        logger.i('Found missing block $missingBlockHeight');
-        // can't find next block height, collect it again
-        final blockHashResult =
-            await _getBlockHash(blockHeight: missingBlockHeight);
-
-        final blockHash = blockHashResult.match((l) {
-          logger.e(l);
-        }, (r) => r);
-
-        if (blockHash == null) {
-          logger.e('Empty block hash for block $missingBlockHeight');
-          return;
-        }
-
-        // download block
-        final blockResult = await _getSingleBlock(blockHash: blockHash);
-
-        final block = blockResult.match((l) {
-          logger.e(l);
-        }, (r) => r);
-
-        if (block == null) {
-          logger.e('Block ${missingBlockHeight} data is empty');
-          return;
-        }
-
-        // and then parse it
-        await _parseAndUpdateSingleBlock(block: block);
-        logger.i('Block ${block.height} saved.');
-        missingCounter++;
-      }
-
-      prevBlockHeight = block.blockHeight;
+      missingCounter++;
+      lowestHeight++;
     }
 
+    final analyzedAverage = (totalBlocksCount / stopwatch.elapsed.inSeconds);
     if (missingCounter != 0) {
-      logger.i('$missingCounter missing blocks updated. Done.');
-    } else {
-      logger.i('Checking missing blocks done.');
+      logger.i('$missingCounter missing blocks updated');
     }
+
+    logger.i(
+        'It took ${stopwatch.elapsed} to analyze $totalBlocksCount blocks. Average $analyzedAverage/s');
   }
 
-  Future<bool> _parseAndUpdateSingleBlock({required BSBlock block}) async {
+  Future<void> _updateMissingBlock({required int blockHeight}) async {
+    logger.i('Found missing block: $blockHeight');
+    final blockHashResult = await _getBlockHash(blockHeight: blockHeight);
+
+    final blockHash = blockHashResult.match((l) {
+      logger.e(l);
+    }, (r) => r);
+
+    if (blockHash == null) {
+      logger.e('Empty block hash for missing block $blockHeight');
+      return;
+    }
+
+    // download block
+    final blockResult = await _getSingleBlock(blockHash: blockHash);
+
+    final block = blockResult.match((l) {
+      logger.e(l);
+    }, (r) => r);
+
+    if (block == null) {
+      logger.e('Missing block ${blockHeight} data is empty');
+      return;
+    }
+
+    // and then parse it
+    logger.i('Parsing missing block ${block.height}');
+    await _parseAndUpdateSingleBlock(block: block);
+  }
+
+  Future<bool> _parseAndUpdateSingleBlock(
+      {required BSBlock block, bool updateExisting = false}) async {
     final nsblockResult = await _parseBlock(block: block);
     final nsblock = nsblockResult.match((l) {
       logger.e(l);
@@ -136,11 +219,15 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
           .blockHeightEqualTo(block.height)
           .findFirst();
       if (existingBlock != null) {
+        if (!updateExisting) {
+          return false;
+        }
         logger.i('Block ${existingBlock.blockHeight} found in db');
         nsblock.id = existingBlock.id;
       }
 
       await isar.writeTxn(() async {
+        logger.i('${nsblock.blockHash} height: ${nsblock.blockHeight}');
         await isar.nSBlocks.put(nsblock);
       });
     } catch (e, st) {
@@ -155,8 +242,6 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
 
   Future<Either<Exception, NSBlock>> _parseBlock(
       {required BSBlock block}) async {
-    logger.i('${block.id} height: ${block.height}');
-
     final transactionsResult = await _getBlockTransactions(block: block);
     final bsTransactionList = transactionsResult.match((l) {
       logger.e(l);
@@ -295,11 +380,8 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
   }
 
   Future<Either<Exception, BSBlocks>> _getBlocks(
-      {required int startBlock}) async {
+      {required int startBlockHeight}) async {
     final client = RetryClient(http.Client(), whenError: whenError);
-
-    // api returns list of 10 blocks from blockheight-10 to blockheight
-    final startBlockHeight = startBlock + 10;
 
     Uri uri = Uri.parse('${Configuration.liquid}/blocks/$startBlockHeight');
 
@@ -438,13 +520,37 @@ class BlockApi extends EsploraApiInterface implements BaseEsploraApiInterface {
     // if blocksCount > maxBlocks
     // delete old blocks
 
+    final highestBlockHeightResult = await _getHighestDbBlockHeight();
+    final highestBlockHeight = highestBlockHeightResult.match((l) {
+      logger.e(l);
+    }, (r) => r);
+
+    if (highestBlockHeight == null) {
+      return Left(Exception('Block height is empty'));
+    }
+
+    return Right(highestBlockHeight);
+  }
+
+  Future<Either<Exception, int>> _getHighestDbBlockHeight() async {
     final highestBlockHeight =
         await isar.nSBlocks.where(sort: Sort.desc).anyBlockHeight().findFirst();
 
     if (highestBlockHeight?.blockHeight == null) {
-      return Left(Exception('Block height is empty'));
+      return Left(Exception('Error getting highest block height'));
     }
 
-    return Right(highestBlockHeight?.blockHeight ?? 0);
+    return Right(highestBlockHeight!.blockHeight!);
+  }
+
+  Future<Either<Exception, int>> _getLowestDbBlockHeight() async {
+    final lowestBlockHeight =
+        await isar.nSBlocks.where(sort: Sort.asc).anyBlockHeight().findFirst();
+
+    if (lowestBlockHeight?.blockHeight == null) {
+      return Left(Exception('Error getting lowest block height'));
+    }
+
+    return Right(lowestBlockHeight!.blockHeight!);
   }
 }

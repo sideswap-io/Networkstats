@@ -63,7 +63,7 @@ class LbtcIssuance extends EsploraApiInterface
       final burnAmount = asset.chainStats?.burnedAmount ?? 0;
       final burnCount = asset.chainStats?.burnCount ?? 0;
 
-      // Peg-out/Burned = peg_out_amount +  burned_amount (peg_in_count + burned_count)
+      // Burned = peg_out_amount + burned_amount (peg_in_count + burned_count)
       final burnedAmount = pegOutAmount + burnAmount * (pegInCount + burnCount);
 
       // Circulating amount = peg_in_amount - peg_out_amount - burned_amount

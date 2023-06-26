@@ -37,12 +37,13 @@ class StatsBackend extends Backend {
 
   Future<void> _run(Isar isar) async {
     logger.i('Running backend service');
+    // var checkMissing = false;
 
     final blockApi = BlockApi(isar);
     final blockScheduler = NeatPeriodicTaskScheduler(
-      interval: Duration(seconds: 3),
+      interval: Duration(minutes: 1),
       name: 'block-api',
-      timeout: Duration(seconds: 5),
+      timeout: Duration(minutes: 1),
       task: () async {
         await blockApi.scrape();
       },
@@ -51,13 +52,18 @@ class StatsBackend extends Backend {
     blockScheduler.start();
 
     final missingBlockScheduler = NeatPeriodicTaskScheduler(
-      interval: Duration(minutes: 10),
+      interval: Duration(hours: 24),
       name: 'missing-block-api',
-      timeout: Duration(minutes: 10),
+      timeout: Duration(minutes: 60),
       task: () async {
+        // omit first start
+        // if (!checkMissing) {
+        //   checkMissing = true;
+        //   return;
+        // }
         await blockApi.scrapeMissingBlocks();
       },
-      minCycle: Duration(milliseconds: 150),
+      minCycle: Duration(hours: 1),
     );
     missingBlockScheduler.start();
 
