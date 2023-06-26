@@ -37,7 +37,6 @@ class StatsBackend extends Backend {
 
   Future<void> _run(Isar isar) async {
     logger.i('Running backend service');
-    // var checkMissing = false;
 
     final blockApi = BlockApi(isar);
     final blockScheduler = NeatPeriodicTaskScheduler(
@@ -56,11 +55,6 @@ class StatsBackend extends Backend {
       name: 'missing-block-api',
       timeout: Duration(minutes: 60),
       task: () async {
-        // omit first start
-        // if (!checkMissing) {
-        //   checkMissing = true;
-        //   return;
-        // }
         await blockApi.scrapeMissingBlocks();
       },
       minCycle: Duration(hours: 1),
