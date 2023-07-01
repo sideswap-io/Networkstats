@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:network_stats/utils/custom_logger.dart';
 
 part 'blockstream_api.freezed.dart';
 part 'blockstream_api.g.dart';

@@ -25,11 +25,7 @@ void main(List<String> args) async {
     inspector: false,
   );
 
-  final networkStats =
-      await isar.networkStats.where().findFirst() ?? NetworkStats();
-
-  Stream<void> networkStatesChanged =
-      isar.networkStats.watchObject(networkStats.id);
+  Stream<void> networkStatesChanged = isar.networkStats.watchLazy();
   networkStatesChanged.listen((_) async {
     final networkStats =
         await isar.networkStats.where().findFirst() ?? NetworkStats();
