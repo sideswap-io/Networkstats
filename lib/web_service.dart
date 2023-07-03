@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:network_stats/provider.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:shelf/shelf.dart';
@@ -17,12 +19,14 @@ class WebService {
   }
 
   Response _rootHandler(Request req) {
-    final value = container.read(networkStatsProvider);
-    return Response.ok('${value.toJson()}\n');
+    try {
+      final value = jsonEncode(container.read(networkStatsProvider));
+      return Response.ok(
+        '${value}\n',
+        headers: {'content-type': 'application/json'},
+      );
+    } catch (e) {
+      return Response.internalServerError(body: e);
+    }
   }
-
-  // Response _echoHandler(Request request) {
-  //   final message = request.params['message'];
-  //   return Response.ok('$message\n');
-  // }
 }
