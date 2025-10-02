@@ -13,5 +13,5 @@ class Configuration {
   static int daysInYear = 365;
 
   // currently hardcoded
-  static int issuedSecurities = 6;
+  static int issuedSecurities = 30;
 }
